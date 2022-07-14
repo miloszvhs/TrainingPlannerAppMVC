@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TrainingPlannerAppMVC.Helpers;
 using TrainingPlannerAppMVC.Models;
 
 namespace TrainingPlannerAppMVC.Controllers
@@ -21,6 +22,12 @@ namespace TrainingPlannerAppMVC.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [Route("exercises")]
+        public IActionResult ViewListOfExercises()
+        {
+            return this.RedirectToAction("Index", "Exercise");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
