@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TrainingPlannerAppMVC.Models.Product>
+
+@{
+    double fat = 0;
+    double carbs = 0;
+    double proteins = 0;
+
+    foreach(var item in Model)
+    {
+        fat += item.Calories.Fat;
+        carbs += item.Calories.Carbs;
+        proteins += item.Calories.Proteins;
+    }
+}
+<h1>@ViewData["Title"]</h1>
+<div class=" d-flex align-items-center justify-content-center">
+    <div class="chart-container" style="position: relative; height:40vh; width:40vh;">
+        <canvas id="myChart" width="200" height="200"></canvas>
+    </div>
+</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calories)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Calories.Fat)
+                @Html.DisplayFor(modelItem => item.Calories.Fat)
+                @Html.DisplayNameFor(model => model.Calories.Carbs)
+                @Html.DisplayFor(modelItem => item.Calories.Carbs)
+                @Html.DisplayNameFor(model => model.Calories.Proteins)
+                @Html.DisplayFor(modelItem => item.Calories.Proteins)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script src="~/js/chartJs/dist/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = {
+      labels: [
+        'Fat',
+        'Carbs',
+        'Proteins'
+      ],
+        datasets: [{
+        labels: [
+            'Fat',
+            'Carbs',
+            'Proteins'
+        ],
+            data: [
+                { id: "Fat", nested: { value: @fat.ToString().Replace(",", ".")} },
+                { id: "Carbs", nested: { value:  @carbs.ToString().Replace(",", ".")} },
+                { id: "Proteins", nested: { value: @proteins.ToString().Replace(",", ".")} }
+            ],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 1
+        }],
+    };
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            parsing: {
+                key: 'nested.value'
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            let label = context.parsed;
+                            return context.label + " " + label + "g";
+                        }
+                    }
+                }
+            }
+        }
+    };
+    const myChart = new Chart(ctx, config);
+</script>

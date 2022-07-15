@@ -24,11 +24,6 @@ namespace TrainingPlannerAppMVC.Controllers
             return View();
         }
 
-        [Route("exercises")]
-        public IActionResult ViewListOfExercises()
-        {
-            return this.RedirectToAction("Index", "Exercise");
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

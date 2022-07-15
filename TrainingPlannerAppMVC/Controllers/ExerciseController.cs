@@ -7,72 +7,73 @@ namespace TrainingPlannerAppMVC.Controllers
 {
     public class ExerciseController : Controller
     {
+
         // GET: ExerciseController
-        [Route("exercises")]
+        [Route("exercise/list")]
         public ActionResult Index()
         {
-            List<Exercise> exerciseList = new List<Exercise>()
-            {
-                new Exercise() { Id = 1, Title = "Przysiady", Description = "Przysiady ze sztangą na plecach", Category = MuscleCategory.Legs},
-                new Exercise() { Id = 2, Title = "Podciąganie", Description = "Podciąganie podchwytem", Category = MuscleCategory.Chest},
-                new Exercise() { Id = 3, Title = "Uginanie gryfa prostego stojąc", Description = "Stojąc uginasz gryfa do maksymalnego spięcią", Category = MuscleCategory.Arms}
-            };
+            ViewData["Title"] = "Exercise list";
 
-            return View(exerciseList);
+            return View(ListOfExercises.list);
         }
 
         // GET: ExerciseController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
+
+            return View(exercise);
         }
 
         // GET: ExerciseController/Create
-        public ActionResult Create()
+        public ActionResult Create(Exercise exercise)
         {
-            return View();
-        }
+            if (ModelState.IsValid)
+            {
+                exercise.Id = ListOfExercises.list.Last().Id + 1;
+                ListOfExercises.list.Add(exercise);
 
-        // POST: ExerciseController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                return View(exercise);
+
             }
         }
 
         // GET: ExerciseController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
+
+            return View(exercise);
         }
 
-        // POST: ExerciseController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Exercise exer)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            //update student in DB using EntityFramework in real-life application
+
+            //update list by removing old student and adding updated student for demo purpose
+            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == exer.Id);
+            ListOfExercises.list.Remove(exercise);
+            ListOfExercises.list.Add(exer);
+
+            return RedirectToAction("Index");
         }
 
         // GET: ExerciseController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
+            
+            if (exercise != null)
+            {
+                ListOfExercises.list.Remove(exercise);
+            }
+
+            return RedirectToAction("Index");
         }
 
         // POST: ExerciseController/Delete/5
