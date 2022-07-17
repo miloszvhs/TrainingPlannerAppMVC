@@ -15,5 +15,10 @@
 
             Kcal = (Fat * 9) + (Carbs * 4) + (Proteins * 4);
         }
+
+        public Calories()
+        {
+
+        }
     }
 }

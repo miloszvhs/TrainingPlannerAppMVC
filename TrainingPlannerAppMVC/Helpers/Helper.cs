@@ -16,9 +16,10 @@ namespace TrainingPlannerAppMVC.Helpers
     {
         public static List<Product> list = new List<Product>()
         {
-            new Product { Id = 1, Name = "Boczek", Calories = new Calories(30, 0.5, 20)},
-            new Product { Id = 2, Name = "Jajko", Calories = new Calories(9.7, 0.6, 12.5)},
-            new Product { Id = 3, Name = "Masło", Calories = new Calories(88, 0.5, 0.5)}
+            new Product(1, "Boczek", new Calories(30, 0.5, 20), 100),
+            new Product(2, "Jajko",  new Calories(9.7, 0.6, 12.5), 100),
+            new Product(3, "Masło",  new Calories(88, 0.5, 0.5), 100),
+            new Product(4, "Test",   new Calories(100, 10, 10), 90),
         };
     }
 

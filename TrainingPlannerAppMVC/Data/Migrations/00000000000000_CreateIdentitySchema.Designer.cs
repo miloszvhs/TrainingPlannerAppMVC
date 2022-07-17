@@ -9,7 +9,7 @@ using TrainingPlannerAppMVC.Data;
 
 namespace TrainingPlannerAppMVC.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(Context))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {

@@ -8,7 +8,7 @@ using TrainingPlannerAppMVC.Data;
 
 namespace TrainingPlannerAppMVC.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(Context))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

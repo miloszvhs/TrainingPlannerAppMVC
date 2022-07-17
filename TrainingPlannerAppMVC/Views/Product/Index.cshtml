@@ -4,19 +4,24 @@
     double fat = 0;
     double carbs = 0;
     double proteins = 0;
+    double kcal = 0;
 
     foreach(var item in Model)
     {
         fat += item.Calories.Fat;
         carbs += item.Calories.Carbs;
         proteins += item.Calories.Proteins;
+        kcal += item.Calories.Kcal;
     }
+
+    string kcalText = $"{kcal}kcal";
 }
 <h1>@ViewData["Title"]</h1>
-<div class=" d-flex align-items-center justify-content-center">
-    <div class="chart-container" style="position: relative; height:40vh; width:40vh;">
-        <canvas id="myChart" width="200" height="200"></canvas>
+<div class="d-flex align-items-center justify-content-center flex-column" >
+    <div>
+        <h3>Calories @kcalText</h3>
     </div>
+    <div id="pieChart" style="width: 400px; height: 400px;"></div>
 </div>
 <p>
     <a asp-action="Create">Create New</a>
@@ -31,18 +36,24 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Calories)
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var (item, index) in Model.Select((x, y) => (x, y + 1))) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => index)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
             </td>
             <td>
                 @Html.DisplayNameFor(model => model.Calories.Fat)
@@ -53,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.Calories.Proteins)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
@@ -61,52 +72,36 @@
 }
     </tbody>
 </table>
-<script src="~/js/chartJs/dist/chart.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const data = {
-      labels: [
-        'Fat',
-        'Carbs',
-        'Proteins'
-      ],
-        datasets: [{
-        labels: [
-            'Fat',
-            'Carbs',
-            'Proteins'
-        ],
-            data: [
-                { id: "Fat", nested: { value: @fat.ToString().Replace(",", ".")} },
-                { id: "Carbs", nested: { value:  @carbs.ToString().Replace(",", ".")} },
-                { id: "Proteins", nested: { value: @proteins.ToString().Replace(",", ".")} }
-            ],
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-            ],
-            hoverOffset: 1
-        }],
-    };
-    const config = {
-        type: 'doughnut',
-        data: data,
-        options: {
-            parsing: {
-                key: 'nested.value'
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: (context) => {
-                            let label = context.parsed;
-                            return context.label + " " + label + "g";
-                        }
-                    }
-                }
-            }
-        }
-    };
-    const myChart = new Chart(ctx, config);
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Macros', 'Grams'],
+          ['Fat',     @fat.ToString().Replace(",", ".")],
+          ['Carbs',   @carbs.ToString().Replace(",", ".")],
+          ['Proteins',@proteins.ToString().Replace(",", ".")],
+        ]);
+
+        var options = {
+          titlePosition: "none",
+          pieHole: 0.4,
+          chartArea: {
+            width: "100%",
+            height: "70%",
+          },
+          legend: {
+          	position: 'labeled',
+            labeledValueText: 'both'
+          },
+          pieSliceText: 'none'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pieChart'));
+
+        chart.draw(data, options);
+      }
 </script>
