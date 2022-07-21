@@ -12,7 +12,7 @@ namespace TrainingPlannerAppMVC.Controllers
         [Route("exercise/list")]
         public ActionResult Index()
         {
-            ViewData["Title"] = "Exercise list";
+            ViewData["Title"] = "Product list";
 
             return View(ListOfExercises.list);
         }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrainingPlannerAppMVC.Domain.Model
 {
-    public class ExerciseCategory
+    public class ExerciseCategory : BaseEntity
     {
-        public int ExerciseId { get; set; }
-        public Exercise Exercise { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public string Name { get; set; }
+        public virtual ICollection<Exercise> Exercises { get; set; }
     }
 }

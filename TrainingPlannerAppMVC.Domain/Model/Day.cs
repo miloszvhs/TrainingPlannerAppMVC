@@ -8,10 +8,10 @@ namespace TrainingPlannerAppMVC.Domain.Model
 {
     public class Day : BaseEntity
     {
-        public DateTime Time { get; set; } = DateTime.Now.Date;
+        public DateTime Date { get; set; }
         public virtual ICollection<Exercise> Exercises { get; set; }
         public virtual ICollection<Product> Products { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public virtual User User { get; set; }
     }
 }
