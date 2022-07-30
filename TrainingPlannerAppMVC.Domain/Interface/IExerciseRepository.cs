@@ -12,8 +12,9 @@ namespace TrainingPlannerAppMVC.Domain.Interface
     {
         int AddExercise(Exercise exercise);
         int DeleteExercise(int exerciseId);
+        int UpdateExercise(Exercise exercise);
         IQueryable<Exercise> GetExercisesByCategoryId(int categoryId);
         Exercise GetExerciseById(int exerciseId);
-        IQueryable<ExerciseCategory> GetAllCategories();
+        IQueryable<Exercise> GetAllExercises();
     }
 }

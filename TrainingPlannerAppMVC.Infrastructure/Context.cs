@@ -1,25 +1,27 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrainingPlannerAppMVC.Domain.Common;
 using TrainingPlannerAppMVC.Domain.Model;
+using TrainingPlannerAppMVC.Domain.ValueObjects;
 
 namespace TrainingPlannerAppMVC.Infrastructure
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<Day> Days { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Calories> Calories { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
         public DbSet<ExerciseDetails> ExerciseDetails { get; set; }
 
-        public Context(DbContextOptions options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
         }
 
@@ -37,51 +39,40 @@ namespace TrainingPlannerAppMVC.Infrastructure
 
             builder.Entity<User>(x =>
             {
-                x.Property(x => x.Email).IsRequired();
+                x.Ignore(x => x.Email);
                 x.Property(x => x.FirstName).IsRequired();
                 x.Property(x => x.LastName).IsRequired();
-                x.Property(x => x.AccountName).IsRequired();
-                x.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()");
-                x.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
-
-                x.HasMany(x => x.Days)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserId);
+                //specufy that the Email property is an Owned Entity of the User entity type
+                x.OwnsOne(x => x.UserEmail);
             });
+        }
 
-            builder.Entity<Product>()
-                .HasOne(x => x.Calories)
-                .WithOne(x => x.Product)
-                .HasForeignKey<Calories>(x => x.ProductId);
-
-            builder.Entity<Day>(x =>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
-                x.Property(x => x.Date)
-                .ValueGeneratedOnAdd();
-
-                x.HasMany(x => x.Exercises)
-                .WithOne(x => x.Day)
-                .HasForeignKey(x => x.DayId);
-
-                x.HasMany(x => x.Products)
-                .WithOne(x => x.Day)
-                .HasForeignKey(x => x.DayId);
-            });
-
-            builder.Entity<ExerciseCategory>()
-                .HasMany(x => x.Exercises)
-                .WithOne(x => x.ExerciseCategory)
-                .HasForeignKey(x => x.ExerciseCategoryId);
-
-            builder.Entity<ExerciseDetails>()
-                .HasMany(x => x.Sets)
-                .WithOne(x => x.ExerciseDetails)
-                .HasForeignKey(x => x.ExerciseDetailsId);
-
-            builder.Entity<Exercise>()
-                .HasOne(x => x.ExerciseDetails)
-                .WithOne(x => x.Exercise)
-                .HasForeignKey<ExerciseDetails>(x => x.ExerciseId);
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedBy = string.Empty;
+                        entry.Entity.CreatedOn = DateTime.Now;
+                        entry.Entity.StatusId = 1;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.ModifiedBy = string.Empty;
+                        entry.Entity.ModifiedOn = DateTime.Now;
+                        break;
+                    case EntityState.Deleted:
+                        entry.Entity.ModifiedBy = string.Empty;
+                        entry.Entity.ModifiedOn = DateTime.Now;
+                        entry.Entity.InactivatedOn = DateTime.Now;
+                        entry.Entity.InactivatedBy = string.Empty;
+                        entry.Entity.StatusId = 0;
+                        entry.State = EntityState.Modified;
+                        break;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

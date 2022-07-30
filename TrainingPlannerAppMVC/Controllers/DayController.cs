@@ -2,14 +2,19 @@
 
 namespace TrainingPlannerAppMVC.Controllers
 {
-    public class CaloriesController : Controller
+    public class DayController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ShowCaloriesByDayId(int id)
+        public IActionResult ShowAllDaysByUserId(int userId)
+        {
+            return View();
+        }
+
+        public IActionResult ShowDayDetailsByUserId(int userId)
         {
             return View();
         }

@@ -40,7 +40,9 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public IQueryable<Exercise> GetExercisesByCategoryId(int categoryId)
         {
-            var exercises = _context.Exercises.Where(x => x.ExerciseCategoryId == categoryId);
+            //var exercises = _context.Exercises.Select(x => x.ExerciseCategories.Where(z => z.Id == categoryId));
+            var exercises = _context.Exercises.Where(x => x.Id == categoryId);
+            //return exercises;
             return exercises;
         }
 
@@ -54,6 +56,16 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         {
             var categories = _context.ExerciseCategories;
             return categories;
+        }
+
+        public int UpdateExercise(Exercise exercise)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Exercise> GetAllExercises()
+        {
+            throw new NotImplementedException();
         }
     }
 }

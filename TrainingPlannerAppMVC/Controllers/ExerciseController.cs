@@ -12,9 +12,7 @@ namespace TrainingPlannerAppMVC.Controllers
         [Route("exercise/list")]
         public ActionResult Index()
         {
-            ViewData["Title"] = "Product list";
-
-            return View(ListOfExercises.list);
+            return View();
         }
 
         // GET: ExerciseController/Details/5
@@ -25,70 +23,35 @@ namespace TrainingPlannerAppMVC.Controllers
             return View(exercise);
         }
 
+        public IActionResult AddExercise(int id)
+        {
+            return View();
+        }
+
         // GET: ExerciseController/Create
         public ActionResult Create(Exercise exercise)
         {
-            if (ModelState.IsValid)
-            {
-                exercise.Id = ListOfExercises.list.Last().Id + 1;
-                ListOfExercises.list.Add(exercise);
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View(exercise);
-
-            }
+            return View();
         }
 
         // GET: ExerciseController/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
 
-            return View(exercise);
+            return View();
         }
 
         [HttpPost]
         public ActionResult Edit(Exercise exer)
         {
-            //update student in DB using EntityFramework in real-life application
-
-            //update list by removing old student and adding updated student for demo purpose
-            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == exer.Id);
-            ListOfExercises.list.Remove(exercise);
-            ListOfExercises.list.Add(exer);
-
             return RedirectToAction("Index");
         }
 
         // GET: ExerciseController/Delete/5
         public ActionResult Delete(int id)
         {
-            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
-            
-            if (exercise != null)
-            {
-                ListOfExercises.list.Remove(exercise);
-            }
-
             return RedirectToAction("Index");
-        }
-
-        // POST: ExerciseController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

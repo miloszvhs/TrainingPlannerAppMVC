@@ -15,35 +15,27 @@ namespace TrainingPlannerAppMVC.Controllers
             return View(products);
         }
 
-        public ActionResult Create(Product product)
+        [HttpGet]
+        public ActionResult AddProduct(int id)
         {
-            if (ModelState.IsValid)
-            {
-                product.Id = ListOfProducts.list.Last().Id + 1;
-                ListOfProducts.list.Add(product);
-
-                return RedirectToAction("Index");
-            }
-
-            return View(product);
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult AddProduct(Product product)
+        {
+            return View();
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
-            var product = ListOfProducts.list.FirstOrDefault(x => x.Id == id);
-            
-            return View(product);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public IActionResult Edit(Product product)
         {
-            var output = ListOfProducts.list.FirstOrDefault(x => x.Id == product.Id);
-
-            ListOfProducts.list.Remove(output);
-            ListOfProducts.list.Add(product);
-
             return RedirectToAction("Index");
         }
     }
