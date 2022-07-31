@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,29 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 {
     public class ExerciseCategoryRepository : IExerciseCategory
     {
+        private readonly Context _context;
+        
+        public ExerciseCategoryRepository(Context context)
+        {
+            _context = context;
+        }
+
         public int AddCategory(ExerciseCategory category)
         {
-            throw new NotImplementedException();
+            _context.ExerciseCategories.Add(category);
+            _context.SaveChangesAsync();
+            return category.Id;
         }
 
         public int DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+            var category = _context.ExerciseCategories.FirstOrDefault(c => c.Id == id);
+
+            if (category != null)
+            {
+                _context.ExerciseCategories.Remove(category);
+                _context.SaveChangesAsync();
+            }
         }
 
         public IQueryable<ExerciseCategory> GetAllCategories()

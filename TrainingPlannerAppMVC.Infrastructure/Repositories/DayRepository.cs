@@ -20,7 +20,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         public int AddDay(Day day)
         {
             _context.Days.Add(day);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
             return day.Id;
         }
 
@@ -31,7 +31,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (day != null)
             {
                 _context.Days.Remove(day);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return day.Id;
             }
             return -1;
@@ -61,7 +61,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (entity != null)
             {
                 entity = day;
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return entity.Id;
             }
             return -1;

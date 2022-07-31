@@ -20,7 +20,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         public int AddExercise(Exercise exercise)
         {
             _context.Exercises.Add(exercise);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
             return exercise.Id;
         }
 
@@ -31,7 +31,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (exercise != null)
             {
                 _context.Exercises.Remove(exercise);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return exercise.Id;
             }
 
@@ -60,12 +60,21 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public int UpdateExercise(Exercise exercise)
         {
-            throw new NotImplementedException();
+            var entity = _context.Exercises.FirstOrDefault(x => x.Id == exercise.Id);
+
+            if (entity != null)
+            {
+                entity = exercise;
+                _context.SaveChangesAsync();
+                return entity.Id;
+            }
+            return -1;
         }
 
         public IQueryable<Exercise> GetAllExercises()
         {
-            throw new NotImplementedException();
+            var exercises = _context.Exercises;
+            return exercises;
         }
     }
 }

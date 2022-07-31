@@ -42,7 +42,7 @@ namespace TrainingPlannerAppMVC.Infrastructure
                 x.Ignore(x => x.Email);
                 x.Property(x => x.FirstName).IsRequired();
                 x.Property(x => x.LastName).IsRequired();
-                //specufy that the Email property is an Owned Entity of the User entity type
+                //specify that the Email property is an Owned Entity of the User entity type
                 x.OwnsOne(x => x.UserEmail);
             });
         }

@@ -40,7 +40,8 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public IQueryable<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            var products = _context.Products;
+            return products;
         }
 
         public Product GetProductById(int productId)
@@ -57,7 +58,8 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public IQueryable<Product> GetProductsByUserId(Guid userId)
         {
-            throw new NotImplementedException();
+            var products = _context.Products.Where(x => x.Day.UserId == userId);
+            return products;
         }
 
         public int UpdateProduct(Product product)
@@ -67,6 +69,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (entity != null)
             {
                 entity = product;
+                _context.SaveChangesAsync();
                 return entity.Id;
             }
             return -1;

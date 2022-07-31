@@ -20,13 +20,14 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         public Guid AddUser(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
             return user.Id;
         }
 
         public IQueryable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            var users = _context.Users;
+            return users;
         }
 
         public User GetUserByUserId(Guid id)
@@ -43,7 +44,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (user != null)
             {
                 _context.Users.Remove(user);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return user.Id;
             }
             return Guid.Empty;
@@ -56,7 +57,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             if (entity != null)
             {
                 entity = user;
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return user.Id;
             }
             return Guid.Empty;
