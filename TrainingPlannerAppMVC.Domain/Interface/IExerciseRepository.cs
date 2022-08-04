@@ -16,5 +16,7 @@ namespace TrainingPlannerAppMVC.Domain.Interface
         IQueryable<Exercise> GetExercisesByCategoryId(int categoryId);
         Exercise GetExerciseById(int exerciseId);
         IQueryable<Exercise> GetAllExercises();
+        IQueryable<Exercise> GetAllExercisesByUserId(Guid userId);
+        IQueryable<Exercise> GetAllExercisesByDayId(Guid dayId);
     }
 }

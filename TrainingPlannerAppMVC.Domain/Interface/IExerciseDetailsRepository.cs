@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrainingPlannerAppMVC.Application.DTO.ViewModels.Exercise
+namespace TrainingPlannerAppMVC.Domain.Interface
 {
-    public class ExerciseCreateDTO
+    public interface IExerciseDetailsRepository
     {
     }
 }

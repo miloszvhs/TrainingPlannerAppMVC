@@ -55,7 +55,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 name: "ExerciseCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ExerciseCategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -68,7 +68,27 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseCategories", x => x.Id);
+                    table.PrimaryKey("PK_ExerciseCategories", x => x.ExerciseCategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserExerciseCategories",
+                columns: table => new
+                {
+                    UserExerciseCategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserExerciseCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserExerciseCategories", x => x.UserExerciseCategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,9 +201,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 name: "Days",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -195,7 +213,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Days", x => x.Id);
+                    table.PrimaryKey("PK_Days", x => x.DayId);
                     table.ForeignKey(
                         name: "FK_Days_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -205,13 +223,12 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercises",
+                name: "UserProducts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -222,12 +239,79 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.PrimaryKey("PK_UserProducts", x => x.UserProductId);
+                    table.ForeignKey(
+                        name: "FK_UserProducts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserExercises",
+                columns: table => new
+                {
+                    UserExerciseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExerciseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserExerciseCategoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserExercises", x => x.UserExerciseId);
+                    table.ForeignKey(
+                        name: "FK_UserExercises_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserExercises_UserExerciseCategories_UserExerciseCategoryId",
+                        column: x => x.UserExerciseCategoryId,
+                        principalTable: "UserExerciseCategories",
+                        principalColumn: "UserExerciseCategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    ExerciseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExerciseCategoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.ExerciseId);
                     table.ForeignKey(
                         name: "FK_Exercises_Days_DayId",
                         column: x => x.DayId,
                         principalTable: "Days",
-                        principalColumn: "Id",
+                        principalColumn: "DayId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Exercises_ExerciseCategories_ExerciseCategoryId",
+                        column: x => x.ExerciseCategoryId,
+                        principalTable: "ExerciseCategories",
+                        principalColumn: "ExerciseCategoryId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -235,14 +319,9 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: false),
-                    Calories_Fat = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Calories_Carbs = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Calories_Proteins = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -253,12 +332,43 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                     table.ForeignKey(
                         name: "FK_Products_Days_DayId",
                         column: x => x.DayId,
                         principalTable: "Days",
-                        principalColumn: "Id",
+                        principalColumn: "DayId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserProductDetails",
+                columns: table => new
+                {
+                    UserProductDetailsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserProductCalories_Fat = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    UserProductCalories_Carbs = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    UserProductCalories_Proteins = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    UserProductId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProductDetails", x => x.UserProductDetailsId);
+                    table.ForeignKey(
+                        name: "FK_UserProductDetails_UserProducts_UserProductId",
+                        column: x => x.UserProductId,
+                        principalTable: "UserProducts",
+                        principalColumn: "UserProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -266,11 +376,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 name: "ExerciseDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ExerciseDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Reps = table.Column<int>(type: "int", nullable: false),
-                    BreakTimeInSeconds = table.Column<int>(type: "int", nullable: false),
                     ExerciseId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -282,46 +391,55 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseDetails", x => x.Id);
+                    table.PrimaryKey("PK_ExerciseDetails", x => x.ExerciseDetailsId);
                     table.ForeignKey(
                         name: "FK_ExerciseDetails_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
-                        principalColumn: "Id",
+                        principalColumn: "ExerciseId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseExerciseCategory",
+                name: "ProductDetails",
                 columns: table => new
                 {
-                    ExerciseCategoriesId = table.Column<int>(type: "int", nullable: false),
-                    ExercisesId = table.Column<int>(type: "int", nullable: false)
+                    ProductDetailsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Calories_Fat = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Calories_Carbs = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Calories_Proteins = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseExerciseCategory", x => new { x.ExerciseCategoriesId, x.ExercisesId });
+                    table.PrimaryKey("PK_ProductDetails", x => x.ProductDetailsId);
                     table.ForeignKey(
-                        name: "FK_ExerciseExerciseCategory_ExerciseCategories_ExerciseCategoriesId",
-                        column: x => x.ExerciseCategoriesId,
-                        principalTable: "ExerciseCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ExerciseExerciseCategory_Exercises_ExercisesId",
-                        column: x => x.ExercisesId,
-                        principalTable: "Exercises",
-                        principalColumn: "Id",
+                        name: "FK_ProductDetails_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseSet",
+                name: "ExerciseSets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ExerciseSetId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExerciseDetailsId = table.Column<int>(type: "int", nullable: false),
+                    BreakTimeInSeconds = table.Column<int>(type: "int", nullable: false),
+                    Reps = table.Column<int>(type: "int", nullable: false),
                     Set = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -334,12 +452,39 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseSet", x => x.Id);
+                    table.PrimaryKey("PK_ExerciseSets", x => x.ExerciseSetId);
                     table.ForeignKey(
-                        name: "FK_ExerciseSet_ExerciseDetails_ExerciseDetailsId",
+                        name: "FK_ExerciseSets_ExerciseDetails_ExerciseDetailsId",
                         column: x => x.ExerciseDetailsId,
                         principalTable: "ExerciseDetails",
-                        principalColumn: "Id",
+                        principalColumn: "ExerciseDetailsId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductWeights",
+                columns: table => new
+                {
+                    ProductWeightId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductDetailsId = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductWeights", x => x.ProductWeightId);
+                    table.ForeignKey(
+                        name: "FK_ProductWeights_ProductDetails_ProductDetailsId",
+                        column: x => x.ProductDetailsId,
+                        principalTable: "ProductDetails",
+                        principalColumn: "ProductDetailsId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -394,24 +539,57 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseExerciseCategory_ExercisesId",
-                table: "ExerciseExerciseCategory",
-                column: "ExercisesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Exercises_DayId",
                 table: "Exercises",
                 column: "DayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseSet_ExerciseDetailsId",
-                table: "ExerciseSet",
+                name: "IX_Exercises_ExerciseCategoryId",
+                table: "Exercises",
+                column: "ExerciseCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseSets_ExerciseDetailsId",
+                table: "ExerciseSets",
                 column: "ExerciseDetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductDetails_ProductId",
+                table: "ProductDetails",
+                column: "ProductId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_DayId",
                 table: "Products",
                 column: "DayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductWeights_ProductDetailsId",
+                table: "ProductWeights",
+                column: "ProductDetailsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserExercises_UserExerciseCategoryId",
+                table: "UserExercises",
+                column: "UserExerciseCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserExercises_UserId",
+                table: "UserExercises",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProductDetails_UserProductId",
+                table: "UserProductDetails",
+                column: "UserProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProducts_UserId",
+                table: "UserProducts",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -432,25 +610,40 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExerciseExerciseCategory");
+                name: "ExerciseSets");
 
             migrationBuilder.DropTable(
-                name: "ExerciseSet");
+                name: "ProductWeights");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "UserExercises");
+
+            migrationBuilder.DropTable(
+                name: "UserProductDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "ExerciseCategories");
-
-            migrationBuilder.DropTable(
                 name: "ExerciseDetails");
 
             migrationBuilder.DropTable(
+                name: "ProductDetails");
+
+            migrationBuilder.DropTable(
+                name: "UserExerciseCategories");
+
+            migrationBuilder.DropTable(
+                name: "UserProducts");
+
+            migrationBuilder.DropTable(
                 name: "Exercises");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "ExerciseCategories");
 
             migrationBuilder.DropTable(
                 name: "Days");

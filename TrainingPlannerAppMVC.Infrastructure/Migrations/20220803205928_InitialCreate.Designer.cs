@@ -12,7 +12,7 @@ using TrainingPlannerAppMVC.Infrastructure;
 namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220730103210_InitialCreate")]
+    [Migration("20220803205928_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,21 +23,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ExerciseExerciseCategory", b =>
-                {
-                    b.Property<int>("ExerciseCategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExercisesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ExerciseCategoriesId", "ExercisesId");
-
-                    b.HasIndex("ExercisesId");
-
-                    b.ToTable("ExerciseExerciseCategory");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
@@ -176,20 +161,15 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Day", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("DayId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InactivatedBy")
@@ -212,7 +192,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("DayId");
 
                     b.HasIndex("UserId");
 
@@ -221,11 +201,11 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Exercise", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExerciseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseId"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -234,7 +214,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DayId")
+                    b.Property<Guid>("DayId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ExerciseCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("InactivatedBy")
@@ -251,27 +234,25 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExerciseId");
 
                     b.HasIndex("DayId");
+
+                    b.HasIndex("ExerciseCategoryId");
 
                     b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExerciseCategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseCategoryId"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -301,21 +282,18 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExerciseCategoryId");
 
                     b.ToTable("ExerciseCategories");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExerciseDetailsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BreakTimeInSeconds")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseDetailsId"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -345,13 +323,14 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExerciseDetailsId");
 
                     b.HasIndex("ExerciseId")
                         .IsUnique();
@@ -361,11 +340,14 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseSet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExerciseSetId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseSetId"), 1L, 1);
+
+                    b.Property<int>("BreakTimeInSeconds")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -391,6 +373,9 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
                     b.Property<int>("Set")
                         .HasColumnType("int");
 
@@ -401,20 +386,20 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ExerciseSetId");
 
                     b.HasIndex("ExerciseDetailsId");
 
-                    b.ToTable("ExerciseSet");
+                    b.ToTable("ExerciseSets");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -423,8 +408,47 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DayId")
+                    b.Property<Guid>("DayId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("DayId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductDetails", b =>
+                {
+                    b.Property<int>("ProductDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductDetailsId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -448,14 +472,65 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductDetailsId");
 
-                    b.HasIndex("DayId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("ProductDetails");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductWeight", b =>
+                {
+                    b.Property<int>("ProductWeightId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductWeightId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Weight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ProductWeightId");
+
+                    b.HasIndex("ProductDetailsId")
+                        .IsUnique();
+
+                    b.ToTable("ProductWeights");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.User", b =>
@@ -528,19 +603,189 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ExerciseExerciseCategory", b =>
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserExercise", b =>
                 {
-                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.ExerciseCategory", null)
-                        .WithMany()
-                        .HasForeignKey("ExerciseCategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("UserExerciseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.Exercise", null)
-                        .WithMany()
-                        .HasForeignKey("ExercisesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserExerciseId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExerciseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserExerciseCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserExerciseId");
+
+                    b.HasIndex("UserExerciseCategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserExercises");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserExerciseCategory", b =>
+                {
+                    b.Property<int>("UserExerciseCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserExerciseCategoryId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserExerciseCategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserExerciseCategoryId");
+
+                    b.ToTable("UserExerciseCategories");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserProduct", b =>
+                {
+                    b.Property<int>("UserProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserProductId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProducts");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserProductDetails", b =>
+                {
+                    b.Property<int>("UserProductDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserProductDetailsId"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InactivatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InactivatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserProductDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserProductDetailsId");
+
+                    b.HasIndex("UserProductId")
+                        .IsUnique();
+
+                    b.ToTable("UserProductDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -613,7 +858,15 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.ExerciseCategory", "ExerciseCategory")
+                        .WithMany("Exercises")
+                        .HasForeignKey("ExerciseCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Day");
+
+                    b.Navigation("ExerciseCategory");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseDetails", b =>
@@ -646,9 +899,20 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Day");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductDetails", b =>
+                {
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.Product", "Product")
+                        .WithOne("ProductDetails")
+                        .HasForeignKey("TrainingPlannerAppMVC.Domain.Model.ProductDetails", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "Calories", b1 =>
                         {
-                            b1.Property<int>("ProductId")
+                            b1.Property<int>("ProductDetailsId")
                                 .HasColumnType("int");
 
                             b1.Property<decimal>("Carbs")
@@ -663,18 +927,29 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                                 .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)");
 
-                            b1.HasKey("ProductId");
+                            b1.HasKey("ProductDetailsId");
 
-                            b1.ToTable("Products");
+                            b1.ToTable("ProductDetails");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductId");
+                                .HasForeignKey("ProductDetailsId");
                         });
 
                     b.Navigation("Calories")
                         .IsRequired();
 
-                    b.Navigation("Day");
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductWeight", b =>
+                {
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.ProductDetails", "ProductDetails")
+                        .WithOne("Weight")
+                        .HasForeignKey("TrainingPlannerAppMVC.Domain.Model.ProductWeight", "ProductDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductDetails");
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.User", b =>
@@ -704,6 +979,75 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserExercise", b =>
+                {
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.UserExerciseCategory", "UserExerciseCategory")
+                        .WithMany("UserExercises")
+                        .HasForeignKey("UserExerciseCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.User", "User")
+                        .WithMany("UserExercises")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserExerciseCategory");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserProduct", b =>
+                {
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.User", "User")
+                        .WithMany("UserProducts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserProductDetails", b =>
+                {
+                    b.HasOne("TrainingPlannerAppMVC.Domain.Model.UserProduct", "UserProduct")
+                        .WithOne("UserProductDetails")
+                        .HasForeignKey("TrainingPlannerAppMVC.Domain.Model.UserProductDetails", "UserProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "UserProductCalories", b1 =>
+                        {
+                            b1.Property<int>("UserProductDetailsId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Carbs")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<decimal>("Fat")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<decimal>("Proteins")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("UserProductDetailsId");
+
+                            b1.ToTable("UserProductDetails");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserProductDetailsId");
+                        });
+
+                    b.Navigation("UserProduct");
+
+                    b.Navigation("UserProductCalories")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Day", b =>
                 {
                     b.Navigation("Exercises");
@@ -717,14 +1061,46 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseCategory", b =>
+                {
+                    b.Navigation("Exercises");
+                });
+
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseDetails", b =>
                 {
                     b.Navigation("Sets");
                 });
 
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Product", b =>
+                {
+                    b.Navigation("ProductDetails")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductDetails", b =>
+                {
+                    b.Navigation("Weight")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.User", b =>
                 {
                     b.Navigation("Days");
+
+                    b.Navigation("UserExercises");
+
+                    b.Navigation("UserProducts");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserExerciseCategory", b =>
+                {
+                    b.Navigation("UserExercises");
+                });
+
+            modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.UserProduct", b =>
+                {
+                    b.Navigation("UserProductDetails")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

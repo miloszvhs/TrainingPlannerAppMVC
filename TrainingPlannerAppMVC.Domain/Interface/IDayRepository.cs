@@ -9,11 +9,11 @@ namespace TrainingPlannerAppMVC.Domain.Interface
 {
     public interface IDayRepository
     {
-        int AddDay(Day day);
-        int UpdateDay(Day day);
-        int DeleteDay(int dayId);
+        Guid AddDay(Day day);
+        Guid UpdateDay(Day day);
+        Guid DeleteDay(Guid dayId);
         IQueryable<Day> GetAllDays();
         IQueryable<Day> GetDaysByUserId(Guid userId);
-        Day GetDayById(int dayId);
+        Day GetDayById(Guid dayId);
     }
 }

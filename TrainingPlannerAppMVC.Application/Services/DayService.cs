@@ -24,7 +24,7 @@ namespace TrainingPlannerAppMVC.Application.Services
             return new ListDayForListVm();
         }
 
-        public DayDetailsVm GetDayDetailsByDayId(int id)
+        public DayDetailsVm GetDayDetailsByDayId(Guid id)
         {
             var details = _dayRepository.GetDayById(id);
             return new DayDetailsVm();

@@ -37,7 +37,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return user;
         }
 
-        public Guid RemoveUserByUserId(Guid id)
+        public Guid RemoveUser(Guid id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             

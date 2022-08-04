@@ -9,6 +9,7 @@ namespace TrainingPlannerAppMVC.Domain.Model
 {
     public class ExerciseSet : AuditableEntity
     {
+        public int ExerciseSetId { get; set; }
         public int ExerciseDetailsId { get; set; }
         public virtual ExerciseDetails ExerciseDetails { get; set; }
         public int BreakTimeInSeconds { get; set; }

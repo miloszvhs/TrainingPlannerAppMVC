@@ -17,24 +17,24 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             _context = context;
         }
 
-        public int AddDay(Day day)
+        public Guid AddDay(Day day)
         {
             _context.Days.Add(day);
             _context.SaveChangesAsync();
-            return day.Id;
+            return day.DayId;
         }
 
-        public int DeleteDay(int dayId)
+        public Guid DeleteDay(Guid dayId)
         {
-            var day = _context.Days.FirstOrDefault(x => x.Id == dayId);
+            var day = _context.Days.FirstOrDefault(x => x.DayId == dayId);
             
             if (day != null)
             {
                 _context.Days.Remove(day);
                 _context.SaveChangesAsync();
-                return day.Id;
+                return day.DayId;
             }
-            return -1;
+            return Guid.Empty;
         }
 
         public IQueryable<Day> GetAllDays()
@@ -42,9 +42,9 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return _context.Days;
         }
 
-        public Day GetDayById(int dayId)
+        public Day GetDayById(Guid dayId)
         {
-            var day = _context.Days.FirstOrDefault(x => x.Id == dayId);
+            var day = _context.Days.FirstOrDefault(x => x.DayId == dayId);
             return day;
         }
 
@@ -54,17 +54,17 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return days;
         }
 
-        public int UpdateDay(Day day)
+        public Guid UpdateDay(Day day)
         {
-            var entity = _context.Days.FirstOrDefault(x => x.Id == day.Id);
+            var entity = _context.Days.FirstOrDefault(x => x.DayId == day.DayId);
             
             if (entity != null)
             {
                 entity = day;
                 _context.SaveChangesAsync();
-                return entity.Id;
+                return entity.DayId;
             }
-            return -1;
+            return Guid.Empty;
         }
     }
 }

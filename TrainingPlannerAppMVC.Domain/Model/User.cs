@@ -16,5 +16,7 @@ namespace TrainingPlannerAppMVC.Domain.Model
         public string LastName { get; set; }
         public Email UserEmail { get; set; }
         public virtual ICollection<Day> Days { get; set; }
+        public virtual ICollection<UserProduct> UserProducts { get; set; }
+        public virtual ICollection<UserExercise> UserExercises { get; set; }
     }
 }

@@ -16,10 +16,17 @@ namespace TrainingPlannerAppMVC.Infrastructure
     {
         public DbSet<Day> Days { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<UserExercise> UserExercises { get; set; }
+        public DbSet<UserExerciseCategory> UserExerciseCategories { get; set; }
+        public DbSet<UserProduct> UserProducts { get; set; }
+        public DbSet<UserProductDetails> UserProductDetails { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
         public DbSet<ExerciseDetails> ExerciseDetails { get; set; }
+        public DbSet<ExerciseSet> ExerciseSets { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductDetails> ProductDetails { get; set; }
+        public DbSet<ProductWeight> ProductWeights { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {

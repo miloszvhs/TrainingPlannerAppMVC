@@ -10,7 +10,7 @@ namespace TrainingPlannerAppMVC.Domain.Interface
     public interface IUserRepository
     {
         Guid AddUser(User user);
-        Guid RemoveUserByUserId(Guid id);
+        Guid RemoveUser(Guid id);
         Guid UpdateUser(User user);
         User GetUserByUserId(Guid id);
         IQueryable<User> GetAllUsers();

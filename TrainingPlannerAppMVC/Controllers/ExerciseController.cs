@@ -1,57 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TrainingPlannerAppMVC.Helpers;
-using TrainingPlannerAppMVC.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
     public class ExerciseController : Controller
     {
-
-        // GET: ExerciseController
-        [Route("exercise/list")]
-        public ActionResult Index()
+        /*public IActionResult Index(int dayId)
         {
-            return View();
+            var exerciseList = exerciseService.GetAllExercisesByDayId(dayId);
+            return View(exerciseList);
         }
 
-        // GET: ExerciseController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult AllExercises(Guid userId)
         {
-            var exercise = ListOfExercises.list.FirstOrDefault(x => x.Id == id);
-
-            return View(exercise);
+            var exercises = exerciseService.GetAllExercisesByUserId(userId);
+            return View(exercises);
         }
 
-        public IActionResult AddExercise(int id)
-        {
-            return View();
-        }
-
-        // GET: ExerciseController/Create
-        public ActionResult Create(Exercise exercise)
-        {
-            return View();
-        }
-
-        // GET: ExerciseController/Edit/5
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult AddExercise()
         {
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult Edit(Exercise exer)
+        public IActionResult AddExercise(Exercise model)
         {
-            return RedirectToAction("Index");
+            var id = exerciseService.AddExercise(model);
+            return View();
         }
 
-        // GET: ExerciseController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult ViewExercise(int exerciseId)
         {
-            return RedirectToAction("Index");
+            var exerciseModel = exerciseService.GetExerciseById(exerciseId);
+            return View(exerciseModel);
         }
+
+        [HttpGet]
+        public IActionResult EditExercise(int exerciseId)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult EditExercise(Exercise exercise)
+        {
+            return View();
+        }*/
     }
 }

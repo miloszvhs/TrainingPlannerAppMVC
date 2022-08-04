@@ -7,11 +7,12 @@ using TrainingPlannerAppMVC.Domain.Model;
 
 namespace TrainingPlannerAppMVC.Domain.Interface
 {
-    public interface IExerciseCategory
+    public interface IExerciseCategoryRepository
     {
         int AddCategory(ExerciseCategory category);
         int DeleteCategory(int id);
         int UpdateCategory(ExerciseCategory category);
         IQueryable<ExerciseCategory> GetAllCategories();
+        string GetCategoryByExerciseId(int exerciseId);
     }
 }

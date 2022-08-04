@@ -10,6 +10,6 @@ namespace TrainingPlannerAppMVC.Application.Interfaces
     public interface IDayService
     {
         ListDayForListVm GetAllDaysByUserId(Guid id);
-        DayDetailsVm GetDayDetailsByDayId(int id);
+        DayDetailsVm GetDayDetailsByDayId(Guid id);
     }
 }
