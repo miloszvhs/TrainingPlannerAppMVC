@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TrainingPlannerAppMVC.Helpers;
 using TrainingPlannerAppMVC.Models;
 
 namespace TrainingPlannerAppMVC.Controllers

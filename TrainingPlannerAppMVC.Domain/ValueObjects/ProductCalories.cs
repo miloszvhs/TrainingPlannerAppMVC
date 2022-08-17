@@ -9,7 +9,7 @@ using TrainingPlannerAppMVC.Domain.Common;
 namespace TrainingPlannerAppMVC.Domain.ValueObjects
 {
     [Owned]
-    public class ProductCalories : ValueObject
+    public record ProductCalories
     {
         public decimal Fat { get; set; }
         public decimal Carbs { get; set; }
@@ -23,13 +23,6 @@ namespace TrainingPlannerAppMVC.Domain.ValueObjects
         public override string ToString()
         {
             return ToDecimal().ToString().Replace(",", ".");
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Fat;
-            yield return Carbs;
-            yield return Proteins;
         }
     }
 }

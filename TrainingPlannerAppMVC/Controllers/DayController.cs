@@ -1,22 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainingPlannerAppMVC.Application.Interfaces;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
     public class DayController : Controller
     {
-        public IActionResult Index()
+        private readonly IDayService _dayService;
+
+        public DayController(IDayService dayService)
         {
-            return View();
+            _dayService = dayService;
         }
 
-        public IActionResult ShowAllDaysByUserId(int userId)
+        [HttpGet]
+        public IActionResult Index(Guid userId)
         {
-            return View();
+            var model = _dayService.GetAllDaysByUserId(userId);
+            return View(model);
         }
 
-        public IActionResult ShowDayDetailsByUserId(int userId)
+        [HttpPost]
+        public IActionResult Index(Guid userId, int pageSize, int pageNumber)
         {
-            return View();
+            var model = _dayService.GetAllDaysByUserId(userId);
+            return View(model);
+        }
+
+        public IActionResult Details(Guid userId)
+        {
+            var model = _dayService.GetDayDetailsByUserId(userId);
+            return View(model);
         }
     }
 }

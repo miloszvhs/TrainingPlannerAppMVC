@@ -21,45 +21,32 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         public int AddExercise(Exercise exercise)
         {
             _context.Exercises.Add(exercise);
-            _context.SaveChangesAsync();
-            return exercise.ExerciseId;
+            _context.SaveChanges();
+            return exercise.Id;
         }
 
         public int DeleteExercise(int exerciseId)
         {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.ExerciseId == exerciseId);
+            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == exerciseId);
 
             if (exercise != null)
             {
                 _context.Exercises.Remove(exercise);
-                _context.SaveChangesAsync();
-                return exercise.ExerciseId;
+                _context.SaveChanges();
+                return exercise.Id;
             }
-
             return -1;
-        }
-
-        public IQueryable<Exercise> GetExercisesByCategoryId(int categoryId)
-        {
-            var exercises = _context.Exercises.Where(x => x.ExerciseCategory.ExerciseCategoryId == categoryId);
-            return exercises;
-        }
-
-        public Exercise GetExerciseById(int exerciseId)
-        {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.ExerciseId == exerciseId);
-            return exercise;
         }
 
         public int UpdateExercise(Exercise exercise)
         {
-            var entity = _context.Exercises.FirstOrDefault(x => x.ExerciseId == exercise.ExerciseId);
+            var entity = _context.Exercises.FirstOrDefault(x => x.Id == exercise.Id);
 
             if (entity != null)
             {
                 entity = exercise;
                 _context.SaveChangesAsync();
-                return entity.ExerciseId;
+                return entity.Id;
             }
             return -1;
         }
@@ -72,14 +59,14 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public IQueryable<Exercise> GetAllExercisesByUserId(Guid userId)
         {
-            var exercises = _context.Exercises;
+            var exercises = _context.Exercises.Where(x => x.UserId == userId);
             return exercises;
         }
 
-        public IQueryable<Exercise> GetAllExercisesByDayId(Guid dayId)
+        public Exercise GetExerciseById(int exerciseId)
         {
-            var exercises = _context.Days.FirstOrDefault(x => x.DayId == dayId).Exercises.AsQueryable();
-            return exercises;
+            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == exerciseId);
+            return exercise;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TrainingPlannerAppMVC.Models.Product
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.ProductDetailsVm
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,34 +6,30 @@
 
 <h1>Edit</h1>
 
-<h4>Product</h4>
+<h4>NewProductVm</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calories.Fat" class="control-label">Fat(100g)</label>
+                <label asp-for="Calories.Fat" class="control-label"></label>
                 <input asp-for="Calories.Fat" class="form-control" />
                 <span asp-validation-for="Calories.Fat" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calories.Carbs" class="control-label">Carbs(100g)</label>
+                <label asp-for="Calories.Carbs" class="control-label"></label>
                 <input asp-for="Calories.Carbs" class="form-control" />
                 <span asp-validation-for="Calories.Carbs" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calories.Proteins" class="control-label">Proteins(100g)</label>
+                <label asp-for="Calories.Proteins" class="control-label"></label>
                 <input asp-for="Calories.Proteins" class="form-control" />
                 <span asp-validation-for="Calories.Proteins" class="text-danger"></span>
             </div>

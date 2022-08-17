@@ -20,19 +20,32 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         public Guid AddDay(Day day)
         {
             _context.Days.Add(day);
-            _context.SaveChangesAsync();
-            return day.DayId;
+            _context.SaveChanges();
+            return day.Id;
         }
 
         public Guid DeleteDay(Guid dayId)
         {
-            var day = _context.Days.FirstOrDefault(x => x.DayId == dayId);
+            var day = _context.Days.FirstOrDefault(x => x.Id == dayId);
             
             if (day != null)
             {
                 _context.Days.Remove(day);
-                _context.SaveChangesAsync();
-                return day.DayId;
+                _context.SaveChanges();
+                return day.Id;
+            }
+            return Guid.Empty;
+        }
+
+        public Guid UpdateDay(Day day)
+        {
+            var entity = _context.Days.FirstOrDefault(x => x.Id == day.Id);
+
+            if (entity != null)
+            {
+                entity = day;
+                _context.SaveChanges();
+                return entity.Id;
             }
             return Guid.Empty;
         }
@@ -44,7 +57,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public Day GetDayById(Guid dayId)
         {
-            var day = _context.Days.FirstOrDefault(x => x.DayId == dayId);
+            var day = _context.Days.FirstOrDefault(x => x.Id == dayId);
             return day;
         }
 
@@ -52,19 +65,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
         {
             var days = _context.Days.Where(x => x.UserId == userId);
             return days;
-        }
-
-        public Guid UpdateDay(Day day)
-        {
-            var entity = _context.Days.FirstOrDefault(x => x.DayId == day.DayId);
-            
-            if (entity != null)
-            {
-                entity = day;
-                _context.SaveChangesAsync();
-                return entity.DayId;
-            }
-            return Guid.Empty;
         }
     }
 }

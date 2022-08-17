@@ -10,8 +10,12 @@ using TrainingPlannerAppMVC.Domain.Exceptions;
 namespace TrainingPlannerAppMVC.Domain.ValueObjects
 {
     [Owned]
-    public class Email : ValueObject
+    public record Email
     {
+        public Email()
+        {
+
+        }
         public string UserName { get; set; }
         public string DomainName { get; set; }
 
@@ -27,17 +31,10 @@ namespace TrainingPlannerAppMVC.Domain.ValueObjects
             }
             catch (Exception ex)
             {
-
                 throw new EmailException(email, ex);
             }
 
             return emailObj;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return UserName;
-            yield return DomainName;
         }
     }
 }

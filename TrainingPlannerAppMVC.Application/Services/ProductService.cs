@@ -1,34 +1,52 @@
-﻿using System;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TrainingPlannerAppMVC.Application.DTO.ViewModels.Product;
 using TrainingPlannerAppMVC.Application.Interfaces;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
 using TrainingPlannerAppMVC.Domain.Interface;
+using TrainingPlannerAppMVC.Domain.Model;
 
 namespace TrainingPlannerAppMVC.Application.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IMapper _mapper;
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+            _mapper = mapper;
         }
-        public ProductEditDTO EditProductById(int id)
+        public int AddProduct(NewProductVm product)
         {
-            throw new NotImplementedException();
-        }
-
-        public ProductDetailsDTO GetProductDetailsById(int id)
-        {
-            throw new NotImplementedException();
+            var productModel = _mapper.Map<Product>(product);
+            var result = _productRepository.AddProduct(productModel);
+            return result;
         }
 
-        public ProductForListDTO GetProductsByDayId(int dayId)
+        public ListProductForListVm GetAllProductsByUserId(Guid userId)
         {
-            throw new NotImplementedException();
+            var products = _productRepository.GetProductsByUserId(userId)
+                .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+
+            var productList = new ListProductForListVm()
+            {
+                Products = products,
+                Count = products.Count,
+                UserId = userId
+            };
+
+            return productList;
+        }
+
+        public ProductDetailsVm GetProductById(int productId)
+        {
+            var product = _mapper.Map<ProductDetailsVm>(_productRepository.GetProductById(productId));
+            return product;
         }
     }
 }

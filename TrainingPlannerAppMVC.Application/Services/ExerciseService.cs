@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,10 +12,7 @@ namespace TrainingPlannerAppMVC.Application.Services
 {
     public class ExerciseService : IExerciseService
     {
-        private readonly IExerciseRepository _exerciseRepository;
-        private readonly IExerciseCategoryRepository _exerciseCategoryRepository;
-        private readonly IExerciseDetailsRepository _exerciseDetailsRepository;
-        private readonly IExerciseSetRepository _exerciseSetRepository;
+        private readonly IDayExerciseRepository _exerciseRepository;
         
         public ExerciseService()
         {
@@ -34,7 +31,7 @@ namespace TrainingPlannerAppMVC.Application.Services
             {
                 result.Exercises.Add(new ExerciseForListVm()
                 {
-                    Id = item.ExerciseId,
+                    Id = item.Id,
                     Name = item.ExerciseDetails.Name,
                     Category = item.ExerciseCategory.Name
                 });
@@ -52,9 +49,9 @@ namespace TrainingPlannerAppMVC.Application.Services
             {
                 var vm = new ExerciseForListVm()
                 {
-                    Id = exercise.ExerciseId,
+                    Id = exercise.Id,
                     Name = exercise.ExerciseDetails.Name,
-                    Category = _exerciseCategoryRepository.GetCategoryByExerciseId(exercise.ExerciseId)
+                    Category = _exerciseRepository.GetExerciseById(exercise.Id).ExerciseCategory.Name
                 };
                 result.Exercises.Add(vm);
             }
@@ -77,8 +74,9 @@ namespace TrainingPlannerAppMVC.Application.Services
                 });
             }
             result.Name = exercise.ExerciseDetails.Name;
-            result.Id = exercise.ExerciseId;
+            result.Id = exercise.Id;
             return result;
         }
     }
 }
+*/

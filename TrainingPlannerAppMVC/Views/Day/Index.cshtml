@@ -1,0 +1,36 @@
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.DayVm.ListDayForListVm
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayFor(modelItem => modelItem.Days)</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var (item, index) in Model.Days.Select((x, y) => (x, y + 1))) {
+        var date = item.Date.Date.ToString("d");
+        <tr>
+            <td>
+                @index
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -13,7 +13,7 @@ namespace TrainingPlannerAppMVC.Domain.Common
         public string ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public int StatusId { get; set; }
-        public string InactivatedBy { get; set; }
+        public string? InactivatedBy { get; set; }
         public DateTime? InactivatedOn { get; set; }
     }
 }

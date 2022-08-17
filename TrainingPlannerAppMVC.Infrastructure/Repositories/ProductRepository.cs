@@ -1,4 +1,4 @@
-﻿/*using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +9,45 @@ using TrainingPlannerAppMVC.Domain.Model;
 
 namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 {
-    public class UserProductRepository : IUserProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly Context _context;
 
-        public UserProductRepository(Context context)
+        public ProductRepository(Context context)
         {
             _context = context;
         }
 
-        public int AddProduct(UserProduct product)
+        public int AddProduct(Product product)
         {
-            _context.UserProducts.Add(product);
+            _context.Products.Add(product);
             _context.SaveChanges();
-            return product.UserProductId;
+            return product.Id;
         }
 
         public int DeleteProduct(int productId)
         {
-            var product = _context.Products.FirstOrDefault(x => x.ProductId == productId);
+            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
 
             if (product != null)
             {
                 _context.Products.Remove(product);
                 _context.SaveChanges();
-                return product.ProductId;
+                return product.Id;
             }
+            return -1;
+        }
 
+        public int UpdateProduct(Product product)
+        {
+            var entity = _context.Products.FirstOrDefault(x => x.Id == product.Id);
+
+            if (entity != null)
+            {
+                entity = product;
+                _context.SaveChanges();
+                return entity.Id;
+            }
             return -1;
         }
 
@@ -47,34 +59,14 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public Product GetProductById(int productId)
         {
-            var product = _context.Products.FirstOrDefault(x => x.ProductId == productId);
+            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
             return product;
         }
 
-        public IQueryable<Product> GetProductsByDayId(Guid dayId)
+        public IQueryable<Product> GetProductsByUserId(Guid userId)
         {
-            var products = _context.Days.FirstOrDefault(x => x.DayId == dayId).Products.AsQueryable();
+            var products = _context.Products.Where(x => x.UserId == userId);
             return products;
-        }
-
-        public IQueryable<UserProduct> GetProductsByUserId(Guid userId)
-        {
-            var products = _context.Users.FirstOrDefault(x => x.Id == userId).UserProducts.AsQueryable();
-            return products;
-        }
-
-        public int UpdateProduct(Product product)
-        {
-            var entity = _context.Products.FirstOrDefault(x => x.ProductId == product.ProductId);
-
-            if (entity != null)
-            {
-                entity = product;
-                _context.SaveChangesAsync();
-                return entity.ProductId;
-            }
-            return -1;
         }
     }
 }
-*/

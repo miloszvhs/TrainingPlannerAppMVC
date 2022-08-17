@@ -16,17 +16,16 @@ namespace TrainingPlannerAppMVC.Infrastructure
     {
         public DbSet<Day> Days { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserExercise> UserExercises { get; set; }
-        public DbSet<UserExerciseCategory> UserExerciseCategories { get; set; }
-        public DbSet<UserProduct> UserProducts { get; set; }
-        public DbSet<UserProductDetails> UserProductDetails { get; set; }
-        public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
-        public DbSet<ExerciseDetails> ExerciseDetails { get; set; }
-        public DbSet<ExerciseSet> ExerciseSets { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDetails> ProductDetails { get; set; }
-        public DbSet<ProductWeight> ProductWeights { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
+        public DbSet<DayExercise> DayExercises { get; set; }
+        public DbSet<DayExerciseCategory> DayExerciseCategories { get; set; }
+        public DbSet<DayExerciseDetails> DayExerciseDetails { get; set; }
+        public DbSet<DayExerciseSet> DayExerciseSets { get; set; }
+        public DbSet<DayProduct> DayProducts { get; set; }
+        public DbSet<DayProductDetails> DayProductDetails { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -54,7 +53,7 @@ namespace TrainingPlannerAppMVC.Infrastructure
             });
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override int SaveChanges()
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
@@ -63,6 +62,8 @@ namespace TrainingPlannerAppMVC.Infrastructure
                     case EntityState.Added:
                         entry.Entity.CreatedBy = string.Empty;
                         entry.Entity.CreatedOn = DateTime.Now;
+                        entry.Entity.ModifiedBy = string.Empty;
+                        entry.Entity.ModifiedOn = DateTime.Now;
                         entry.Entity.StatusId = 1;
                         break;
                     case EntityState.Modified:
@@ -79,7 +80,8 @@ namespace TrainingPlannerAppMVC.Infrastructure
                         break;
                 }
             }
-            return base.SaveChangesAsync(cancellationToken);
+
+            return base.SaveChanges();
         }
     }
 }

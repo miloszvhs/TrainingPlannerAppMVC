@@ -9,8 +9,8 @@ namespace TrainingPlannerAppMVC.Domain.Model
 {
     public class ExerciseCategory : AuditableEntity
     {
-        public int ExerciseCategoryId { get; set; }
-        public string Name { get; set; }
-        public virtual ICollection<Exercise> Exercises { get; set; }
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
+        public virtual ICollection<Exercise> UserExercises { get; set; }
     }
 }
