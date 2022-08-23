@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,32 +35,31 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
                 _context.SaveChanges();
                 return product.Id;
             }
-
             return -1;
         }
 
-        public Product GetProductById(int productId)
+        public void UpdateProduct(Product product)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
-            return product;
+            _context.Update(product);
+            _context.SaveChanges();
         }
 
-        public IQueryable<Product> GetProductsByDayId(int dayId)
+        public IQueryable<Product> GetAllProducts()
         {
-            var products = _context.Products.Where(x => x.DayId == dayId);
+            var products = _context.Products.Include(x => x.Details);
             return products;
         }
 
-        public int UpdateProduct(Product product)
+        public IQueryable<Product> GetProductsByUserId(Guid userId)
         {
-            var entity = _context.Products.FirstOrDefault(x => x.Id == product.Id);
+            var products = _context.Products.Where(x => x.UserId == userId);
+            return products;
+        }
 
-            if (entity != null)
-            {
-                entity = product;
-                return entity.Id;
-            }
-            return -1;
+        public Product GetProductById(int id)
+        {
+            var product = GetAllProducts().FirstOrDefault(x => x.Id == id);
+            return product;
         }
     }
 }

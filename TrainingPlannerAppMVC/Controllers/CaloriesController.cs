@@ -6,8 +6,11 @@ namespace TrainingPlannerAppMVC.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["Title"] = "Calories";
+            return View();
+        }
 
+        public IActionResult ShowCaloriesByDayId(int id)
+        {
             return View();
         }
     }

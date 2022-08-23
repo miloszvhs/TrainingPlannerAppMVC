@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TrainingPlannerAppMVC.Domain;
 using TrainingPlannerAppMVC.Domain.Model;
 
 namespace TrainingPlannerAppMVC.Domain.Interface
@@ -12,8 +11,9 @@ namespace TrainingPlannerAppMVC.Domain.Interface
     {
         int AddExercise(Exercise exercise);
         int DeleteExercise(int exerciseId);
-        IQueryable<Exercise> GetExercisesByCategoryId(int categoryId);
+        void UpdateExercise(Exercise exercise);
+        IQueryable<Exercise> GetAllExercises();
+        IQueryable<Exercise> GetAllExercisesByUserId(Guid userId);
         Exercise GetExerciseById(int exerciseId);
-        IQueryable<ExerciseCategory> GetAllCategories();
     }
 }

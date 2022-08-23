@@ -1,0 +1,56 @@
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.NewProductVm
+
+@{
+    ViewData["Title"] = "AddProduct";
+    string fat = Model.Details != null ? Model.Details.Calories.Fat
+        .ToString().Replace(",", ".") : "0";
+    string carbs = Model.Details != null ? Model.Details.Calories.Carbs
+        .ToString().Replace(",", ".") : "0";
+    string proteins = Model.Details != null ? Model.Details.Calories.Proteins
+        .ToString().Replace(",", ".") : "0";
+}
+<h1>AddProduct</h1>
+
+<h4>NewProductVm</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddProduct">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="UserId"/>
+            <div class="form-group">
+                <label asp-for="Details.Name" class="control-label"></label>
+                <input asp-for="Details.Name" class="form-control" />
+                <span asp-validation-for="Details.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Details.Calories.Fat" class="control-label"></label>
+                <input asp-for="Details.Calories.Fat" class="form-control" value="@fat" />
+                <span asp-validation-for="Details.Calories.Fat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Details.Calories.Carbs" class="control-label"></label>
+                <input asp-for="Details.Calories.Carbs" class="form-control" value="@carbs" />
+                <span asp-validation-for="Details.Calories.Carbs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Details.Calories.Proteins" class="control-label"></label>
+                <input asp-for="Details.Calories.Proteins" class="form-control" value="@proteins" />
+                <span asp-validation-for="Details.Calories.Proteins" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to list", "Index", new { userId=Model.UserId })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

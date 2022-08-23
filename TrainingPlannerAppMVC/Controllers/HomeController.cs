@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TrainingPlannerAppMVC.Helpers;
 using TrainingPlannerAppMVC.Models;
 
 namespace TrainingPlannerAppMVC.Controllers
@@ -16,6 +15,7 @@ namespace TrainingPlannerAppMVC.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Jestem w Home/Index");
             return View();
         }
 

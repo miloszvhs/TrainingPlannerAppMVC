@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,26 +35,31 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
                 _context.SaveChanges();
                 return exercise.Id;
             }
-
             return -1;
         }
 
-        public IQueryable<Exercise> GetExercisesByCategoryId(int categoryId)
+        public void UpdateExercise(Exercise exercise)
         {
-            var exercises = _context.Exercises.Where(x => x.ExerciseCategoryId == categoryId);
+            _context.Update(exercise);
+            _context.SaveChanges();
+        }
+
+        public IQueryable<Exercise> GetAllExercises()
+        {
+            var exercises = _context.Exercises.Include(x => x.Category);
+            return exercises;
+        }
+
+        public IQueryable<Exercise> GetAllExercisesByUserId(Guid userId)
+        {
+            var exercises = _context.Exercises.Include(x => x.Category).Where(x => x.UserId == userId);
             return exercises;
         }
 
         public Exercise GetExerciseById(int exerciseId)
         {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == exerciseId);
+            var exercise = _context.Exercises.Include(x => x.Category).FirstOrDefault(x => x.Id == exerciseId);
             return exercise;
-        }
-
-        public IQueryable<ExerciseCategory> GetAllCategories()
-        {
-            var categories = _context.ExerciseCategories;
-            return categories;
         }
     }
 }

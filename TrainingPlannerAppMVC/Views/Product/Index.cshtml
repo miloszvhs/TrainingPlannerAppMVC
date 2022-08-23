@@ -1,107 +1,92 @@
-﻿@model IEnumerable<TrainingPlannerAppMVC.Models.Product>
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.ListProductForListVm
 
 @{
-    double fat = 0;
-    double carbs = 0;
-    double proteins = 0;
-    double kcal = 0;
-
-    foreach(var item in Model)
-    {
-        fat += item.Calories.Fat;
-        carbs += item.Calories.Carbs;
-        proteins += item.Calories.Proteins;
-        kcal += item.Calories.Kcal;
-    }
-
-    string kcalText = $"{kcal}kcal";
+    ViewData["Title"] = "Index";
 }
-<h1>@ViewData["Title"]</h1>
-<div class="d-flex align-items-center justify-content-center flex-column" >
-    <div>
-        <h3>Calories @kcalText</h3>
-    </div>
-    <div id="pieChart" style="width: 400px; height: 400px;"></div>
-</div>
+
+<h1>Index</h1>
+
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddProduct" asp-route-userId="@Model.UserId">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Weight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calories)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var (item, index) in Model.Select((x, y) => (x, y + 1))) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => index)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weight)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.Calories.Fat)
-                @Html.DisplayFor(modelItem => item.Calories.Fat)
-                @Html.DisplayNameFor(model => model.Calories.Carbs)
-                @Html.DisplayFor(modelItem => item.Calories.Carbs)
-                @Html.DisplayNameFor(model => model.Calories.Proteins)
-                @Html.DisplayFor(modelItem => item.Calories.Proteins)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+<form asp-action="Index" asp-controller="Product" method="post">
+    <div class="container text-center">
+        <div class="row row-cols-auto">
+            <input type="text" asp-for="SearchString" name="searchString" id="searchString">
+            <input type="submit" value="Wyszukaj">
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Fat
+                </th>
+                <th>
+                    Carbs
+                </th>
+                <th>
+                    Proteins
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Products) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details.Calories.Fat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details.Calories.Carbs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details.Calories.Proteins)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id, userId=item.UserId }) |
+                        @Html.ActionLink("Delete", "Delete", new { userId=item.UserId, productId=item.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination">
+    @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+    {
+        @if (i != Model.CurrentPage)
+        {
+            <li class="page-item">
+                <a href="javascript:PagerClick(@i)" class="page-link">@i</a>
+            </li>  
+        }
+        else
+        {
+            <li class="page-item active">
+                <span class="page-link">@i</span>
+            </li>  
+        }
+        
+    }
+    </ul>
+    <input type="hidden" asp-for="UserId"/>
+    <input type="hidden" asp-for="CurrentPage" name="pageNumber" id="pageNumber">
+    <input type="hidden" asp-for="PageSize" name="pageSize" id="pageSize">
+</form>
+@section Scripts
+{
+    <script>
+    function PagerClick(index)
+    {
+        document.getElementById("pageNumber").value = index;
+        document.forms[0].submit();
+    }    
+    </script>
 }
-    </tbody>
-</table>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Macros', 'Grams'],
-          ['Fat',     @fat.ToString().Replace(",", ".")],
-          ['Carbs',   @carbs.ToString().Replace(",", ".")],
-          ['Proteins',@proteins.ToString().Replace(",", ".")],
-        ]);
-
-        var options = {
-          titlePosition: "none",
-          pieHole: 0.4,
-          chartArea: {
-            width: "100%",
-            height: "70%",
-          },
-          legend: {
-          	position: 'labeled',
-            labeledValueText: 'both'
-          },
-          pieSliceText: 'none'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('pieChart'));
-
-        chart.draw(data, options);
-      }
-</script>

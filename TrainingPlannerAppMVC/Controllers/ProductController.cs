@@ -1,50 +1,90 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TrainingPlannerAppMVC.Helpers;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using TrainingPlannerAppMVC.Application.Interfaces;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Models;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            var products = ListOfProducts.list;
+            _productService = productService;
+        }
+
+        [HttpGet]
+        public IActionResult Index(Guid userId)
+        {
+            var products = _productService.GetAllProductsByUserId(userId, 5, 1, "");
 
             ViewBag.Title = "Calories and products";
 
             return View(products);
         }
+        
+        [HttpPost]
+        public IActionResult Index(Guid userId, int pageSize, int pageNumber, string searchString)
+        {
+            if(pageNumber == null)
+            {
+                pageNumber = 1;
+            }
+            
+            if(searchString == null)
+            {
+                searchString = string.Empty;
+            }
+            
+            var products = _productService.GetAllProductsByUserId(userId, pageSize, pageNumber, searchString);
 
-        public ActionResult Create(Product product)
+            ViewBag.Title = "Calories and products";
+            
+            return View(products);
+        }
+
+        [HttpGet]
+        public ActionResult AddProduct(Guid userId)
+        {
+            return View(new NewProductVm() { UserId = userId });
+        }
+
+        [HttpPost]
+        public IActionResult AddProduct(NewProductVm product)
         {
             if (ModelState.IsValid)
             {
-                product.Id = ListOfProducts.list.Last().Id + 1;
-                ListOfProducts.list.Add(product);
-
-                return RedirectToAction("Index");
+                _productService.AddProduct(product);
+                return RedirectToAction("Index", new { userId = product.UserId });
             }
-
             return View(product);
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
-            var product = ListOfProducts.list.FirstOrDefault(x => x.Id == id);
-            
+            var product = _productService.GetProductForEdit(id);
             return View(product);
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public IActionResult Edit(NewProductVm product)
         {
-            var output = ListOfProducts.list.FirstOrDefault(x => x.Id == product.Id);
-
-            ListOfProducts.list.Remove(output);
-            ListOfProducts.list.Add(product);
-
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                _productService.UpdateProduct(product);
+                return RedirectToAction("Index", new { userId = product.UserId});    
+            }
+            return View(product);
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(Guid userId, int productId)
+        {
+            _productService.DeleteProduct(productId);
+            return RedirectToAction("Index", new { userId = userId });
         }
     }
 }

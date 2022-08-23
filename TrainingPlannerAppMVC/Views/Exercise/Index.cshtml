@@ -1,50 +1,79 @@
-﻿@model IEnumerable<TrainingPlannerAppMVC.Models.Exercise>
-
-
-<h1>@ViewData["Title"]</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var (item, index) in Model.Select((x, y) => (x, y + 1))) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => index)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+@model TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.ListExerciseForListVm;
+@{
+    ViewData["Title"] = "Index";
 }
-    </tbody>
-</table>
+
+<h1>Exercises</h1>
+<p>
+    <a asp-action="AddExercise" asp-route-userId="@Model.UserId" method="post">Create New</a>
+</p>
+<form asp-action="Index" asp-controller="Exercise" method="post">
+    <div class="container text-center">
+        <div class="row row-cols-auto">
+            <input type="text" asp-for="SearchString" name="searchString" id="searchString">
+            <input type="submit" value="Wyszukaj">
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Category
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Exercises) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExerciseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new { userId=item.UserId, exerciseId=item.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination">
+    @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+    {
+        @if (i != Model.CurrentPage)
+        {
+            <li class="page-item">
+                <a href="javascript:PagerClick(@i)" class="page-link">@i</a>
+            </li>  
+        }
+        else
+        {
+            <li class="page-item active">
+                <span class="page-link">@i</span>
+            </li>  
+        }
+        
+    }
+    </ul>
+    <input type="hidden" asp-for="UserId"/>
+    <input type="hidden" asp-for="CurrentPage" name="pageNumber" id="pageNumber">
+    <input type="hidden" asp-for="PageSize" name="pageSize" id="pageSize">
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index)
+        {
+            document.getElementById("pageNumber").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}

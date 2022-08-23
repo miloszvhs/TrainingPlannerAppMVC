@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrainingPlannerAppMVC.Domain.Common;
 
 namespace TrainingPlannerAppMVC.Domain.Model
 {
-    public class Exercise : BaseEntity
+    public class Exercise
     {
-        public string Name { get; set; }
-        public int DayId { get; set; }
-        public virtual Day Day { get; set; }
-        public int ExerciseDetailsId { get; set; }
-        public virtual ExerciseDetails ExerciseDetails { get; set; }
-        public int ExerciseCategoryId { get; set; }
-        public virtual ExerciseCategory ExerciseCategory { get; set; }
+        public int Id { get; set; }
+        public Guid UserId { get; set; }
+        public virtual User User { get; set; }
+        public string ExerciseName { get; set; }
+        public virtual ExerciseCategory Category { get; set; }
     }
 }
