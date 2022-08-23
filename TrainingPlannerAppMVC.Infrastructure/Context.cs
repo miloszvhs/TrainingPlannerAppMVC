@@ -43,6 +43,18 @@ namespace TrainingPlannerAppMVC.Infrastructure
                 property.SetScale(2);
             }
 
+            builder.Entity<Product>(
+                    x =>
+                    {
+                        x.HasOne(x => x.Details)
+                            .WithOne(x => x.Product)
+                            .HasForeignKey<ProductDetails>(x => x.ProductId);
+                        x.Navigation(x => x.Details)
+                            .IsRequired();
+                    });
+                
+
+
             builder.Entity<User>(x =>
             {
                 x.Ignore(x => x.Email);

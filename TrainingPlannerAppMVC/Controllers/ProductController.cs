@@ -10,20 +10,38 @@ namespace TrainingPlannerAppMVC.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private readonly IValidator<NewProductVm> _validator;
-        public ProductController(IProductService productService, IValidator<NewProductVm> validator)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _validator = validator;
         }
 
         [HttpGet]
         public IActionResult Index(Guid userId)
         {
-            var products = _productService.GetAllProductsByUserId(userId);
+            var products = _productService.GetAllProductsByUserId(userId, 5, 1, "");
 
             ViewBag.Title = "Calories and products";
 
+            return View(products);
+        }
+        
+        [HttpPost]
+        public IActionResult Index(Guid userId, int pageSize, int pageNumber, string searchString)
+        {
+            if(pageNumber == null)
+            {
+                pageNumber = 1;
+            }
+            
+            if(searchString == null)
+            {
+                searchString = string.Empty;
+            }
+            
+            var products = _productService.GetAllProductsByUserId(userId, pageSize, pageNumber, searchString);
+
+            ViewBag.Title = "Calories and products";
+            
             return View(products);
         }
 
@@ -36,8 +54,7 @@ namespace TrainingPlannerAppMVC.Controllers
         [HttpPost]
         public IActionResult AddProduct(NewProductVm product)
         {
-            var result = _validator.Validate(product);
-            if (result.IsValid)
+            if (ModelState.IsValid)
             {
                 _productService.AddProduct(product);
                 return RedirectToAction("Index", new { userId = product.UserId });
@@ -48,14 +65,26 @@ namespace TrainingPlannerAppMVC.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product = _productService.GetProductForEdit(id);
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult Edit(ProductDetailsVm product)
+        public IActionResult Edit(NewProductVm product)
         {
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                _productService.UpdateProduct(product);
+                return RedirectToAction("Index", new { userId = product.UserId});    
+            }
+            return View(product);
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(Guid userId, int productId)
+        {
+            _productService.DeleteProduct(productId);
+            return RedirectToAction("Index", new { userId = userId });
         }
     }
 }

@@ -1,50 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainingPlannerAppMVC.Application.Interfaces;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
     public class ExerciseController : Controller
     {
-        /*public IActionResult Index(int dayId)
+        private readonly IExerciseService _exerciseService;
+
+        public ExerciseController(IExerciseService exerciseService)
         {
-            var exerciseList = exerciseService.GetAllExercisesByDayId(dayId);
-            return View(exerciseList);
+            _exerciseService = exerciseService;
         }
 
-        public IActionResult AllExercises(Guid userId)
+        [HttpGet]
+        public IActionResult Index(Guid userId)
         {
-            var exercises = exerciseService.GetAllExercisesByUserId(userId);
+            var exercises = _exerciseService.GetExercisesByUserId(userId, 5, 1, "");
+            return View(exercises);
+        }
+        
+        [HttpPost]
+        public IActionResult Index(Guid userId, int pageSize, int pageNumber, string searchString)
+        {
+            if(pageNumber == null)
+            {
+                pageNumber = 1;
+            }
+            
+            if(searchString == null)
+            {
+                searchString = string.Empty;
+            }
+            
+            var exercises = _exerciseService.GetExercisesByUserId(userId, pageSize, pageNumber, searchString);
             return View(exercises);
         }
 
         [HttpGet]
-        public IActionResult AddExercise()
+        public IActionResult AddExercise(Guid userId)
         {
-            return View();
+            return View(new NewExerciseVm() { UserId = userId });
         }
-
+        
         [HttpPost]
-        public IActionResult AddExercise(Exercise model)
+        public IActionResult AddExercise(NewExerciseVm exercise)
         {
-            var id = exerciseService.AddExercise(model);
-            return View();
-        }
+            if(ModelState.IsValid)
+            {
+                _exerciseService.AddExercise(exercise);
+                return RedirectToAction("Index", new { userId = exercise.UserId });
+            }
 
-        public IActionResult ViewExercise(int exerciseId)
-        {
-            var exerciseModel = exerciseService.GetExerciseById(exerciseId);
-            return View(exerciseModel);
+            return View(exercise);
         }
-
+        
         [HttpGet]
-        public IActionResult EditExercise(int exerciseId)
+        public IActionResult Edit(int id)
         {
-            return View();
+            var exercise = _exerciseService.GetExerciseForEdit(id);
+            return View(exercise);
         }
-
+        
         [HttpPost]
-        public IActionResult EditExercise(Exercise exercise)
+        public IActionResult Edit(NewExerciseVm exercise)
         {
-            return View();
-        }*/
+            if(ModelState.IsValid)
+            {
+                _exerciseService.UpdateExercise(exercise);
+                return RedirectToAction("Index", new { userId = exercise.UserId });
+            }
+
+            return View(exercise);
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(Guid userId, int exerciseId)
+        {
+            _exerciseService.DeleteExercise(exerciseId);
+            return RedirectToAction("Index", new { userId = userId });
+        }
     }
 }

@@ -38,35 +38,28 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return -1;
         }
 
-        public int UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
-            var entity = _context.Products.FirstOrDefault(x => x.Id == product.Id);
-
-            if (entity != null)
-            {
-                entity = product;
-                _context.SaveChanges();
-                return entity.Id;
-            }
-            return -1;
+            _context.Update(product);
+            _context.SaveChanges();
         }
 
         public IQueryable<Product> GetAllProducts()
         {
-            var products = _context.Products;
+            var products = _context.Products.Include(x => x.Details);
             return products;
-        }
-
-        public Product GetProductById(int productId)
-        {
-            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
-            return product;
         }
 
         public IQueryable<Product> GetProductsByUserId(Guid userId)
         {
             var products = _context.Products.Where(x => x.UserId == userId);
             return products;
+        }
+
+        public Product GetProductById(int id)
+        {
+            var product = GetAllProducts().FirstOrDefault(x => x.Id == id);
+            return product;
         }
     }
 }

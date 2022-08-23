@@ -1,15 +1,13 @@
-﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.ListProductForListVm
-
+@model TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.ListExerciseForListVm;
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<h1>Exercises</h1>
 <p>
-    <a asp-action="AddProduct" asp-route-userId="@Model.UserId">Create New</a>
+    <a asp-action="AddExercise" asp-route-userId="@Model.UserId" method="post">Create New</a>
 </p>
-<form asp-action="Index" asp-controller="Product" method="post">
+<form asp-action="Index" asp-controller="Exercise" method="post">
     <div class="container text-center">
         <div class="row row-cols-auto">
             <input type="text" asp-for="SearchString" name="searchString" id="searchString">
@@ -24,34 +22,22 @@
                     Name
                 </th>
                 <th>
-                    Fat
-                </th>
-                <th>
-                    Carbs
-                </th>
-                <th>
-                    Proteins
+                    Category
                 </th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Products) {
+            @foreach (var item in Model.Exercises) {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Details.Name)
+                        @Html.DisplayFor(modelItem => item.ExerciseName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Details.Calories.Fat)
+                        @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Details.Calories.Carbs)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Details.Calories.Proteins)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.Id, userId=item.UserId }) |
-                        @Html.ActionLink("Delete", "Delete", new { userId=item.UserId, productId=item.Id })
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new { userId=item.UserId, exerciseId=item.Id })
                     </td>
                 </tr>
             }
@@ -80,13 +66,14 @@
     <input type="hidden" asp-for="CurrentPage" name="pageNumber" id="pageNumber">
     <input type="hidden" asp-for="PageSize" name="pageSize" id="pageSize">
 </form>
+
 @section Scripts
 {
-    <script>
-    function PagerClick(index)
-    {
-        document.getElementById("pageNumber").value = index;
-        document.forms[0].submit();
-    }    
+    <script type="text/javascript">
+        function PagerClick(index)
+        {
+            document.getElementById("pageNumber").value = index;
+            document.forms[0].submit();
+        }
     </script>
 }

@@ -17,6 +17,7 @@ namespace TrainingPlannerAppMVC.Infrastructure
             services.AddTransient<IDayExerciseRepository, DayExerciseRepository>();
             services.AddTransient<IDayProductRepository, DayProductRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IExerciseRepository, ExerciseRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             return services;
         }

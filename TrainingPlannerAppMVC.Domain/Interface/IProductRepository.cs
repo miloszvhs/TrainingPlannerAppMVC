@@ -11,9 +11,9 @@ namespace TrainingPlannerAppMVC.Domain.Interface
     {
         int AddProduct(Product product);
         int DeleteProduct(int productId);
-        int UpdateProduct(Product product);
+        void UpdateProduct(Product product);
         IQueryable<Product> GetProductsByUserId(Guid userId);
         IQueryable<Product> GetAllProducts();
-        Product GetProductById(int productId);
+        Product GetProductById(int id);
     }
 }

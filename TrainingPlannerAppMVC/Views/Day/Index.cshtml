@@ -5,14 +5,21 @@
 }
 
 <h1>Index</h1>
+@if (Model.AllowDayCreate)
+{
+    <p>
+        @Html.ActionLink("Create New", "AddDay", new { userId=Model.UserId})
+    </p> 
+}
+else
+{
+    <p>Create New</p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayFor(modelItem => modelItem.Days)</th>
+            Days
         </tr>
     </thead>
     <tbody>

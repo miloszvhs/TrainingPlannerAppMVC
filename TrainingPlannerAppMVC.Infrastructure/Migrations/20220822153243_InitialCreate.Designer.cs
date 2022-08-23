@@ -12,14 +12,14 @@ using TrainingPlannerAppMVC.Infrastructure;
 namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220815220507_InitialCreate")]
+    [Migration("20220822153243_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -206,33 +206,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("DayId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ExerciseCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("InactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("InactivatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -327,31 +304,8 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("DayId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("InactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("InactivatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -398,32 +352,9 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ExerciseName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("InactivatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -449,29 +380,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("InactivatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("ExerciseCategories");
@@ -484,29 +392,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("InactivatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");

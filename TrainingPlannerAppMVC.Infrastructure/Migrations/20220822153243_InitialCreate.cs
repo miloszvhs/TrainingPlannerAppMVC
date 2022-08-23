@@ -70,14 +70,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,14 +214,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -249,14 +235,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExerciseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -282,14 +261,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExerciseCategoryId = table.Column<int>(type: "int", nullable: false),
-                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -314,14 +286,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InactivatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {

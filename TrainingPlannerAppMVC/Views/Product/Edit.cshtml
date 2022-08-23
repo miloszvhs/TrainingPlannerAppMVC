@@ -1,7 +1,19 @@
-﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.ProductDetailsVm
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.NewProductVm
 
 @{
     ViewData["Title"] = "Edit";
+    
+    string proteins = "0";
+    string carbs = "0";
+    string fat = "0";
+    
+    if(Model.Details != null)
+    {
+        fat = Model.Details.Calories.Fat.ToString().Replace(",", ".");
+        carbs = Model.Details.Calories.Carbs.ToString().Replace(",", ".");
+        proteins = Model.Details.Calories.Proteins.ToString().Replace(",", "."); 
+    }
+
 }
 
 <h1>Edit</h1>
@@ -13,25 +25,28 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="UserId"/>
+            <input type="hidden" asp-for="Details.Id"/>
+            <input type="hidden" asp-for="Details.ProductId"/>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Details.Name" class="control-label"></label>
+                <input asp-for="Details.Name" class="form-control" />
+                <span asp-validation-for="Details.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calories.Fat" class="control-label"></label>
-                <input asp-for="Calories.Fat" class="form-control" />
-                <span asp-validation-for="Calories.Fat" class="text-danger"></span>
+                <label asp-for="Details.Calories.Fat" class="control-label"></label>
+                <input asp-for="Details.Calories.Fat" class="form-control" value="@fat" />
+                <span asp-validation-for="Details.Calories.Fat" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calories.Carbs" class="control-label"></label>
-                <input asp-for="Calories.Carbs" class="form-control" />
-                <span asp-validation-for="Calories.Carbs" class="text-danger"></span>
+                <label asp-for="Details.Calories.Carbs" class="control-label"></label>
+                <input asp-for="Details.Calories.Carbs" class="form-control" value="@carbs" />
+                <span asp-validation-for="Details.Calories.Carbs" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Calories.Proteins" class="control-label"></label>
-                <input asp-for="Calories.Proteins" class="form-control" />
-                <span asp-validation-for="Calories.Proteins" class="text-danger"></span>
+                <label asp-for="Details.Calories.Proteins" class="control-label"></label>
+                <input asp-for="Details.Calories.Proteins" class="form-control" value="@proteins" />
+                <span asp-validation-for="Details.Calories.Proteins" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -41,7 +56,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-userId="@Model.UserId">Back to List</a>
 </div>
 
 @section Scripts {

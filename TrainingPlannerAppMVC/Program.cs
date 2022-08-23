@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using TrainingPlannerAppMVC.Application;
+using TrainingPlannerAppMVC.Application.Binders;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
 using TrainingPlannerAppMVC.Application.ViewModels.UserVm;
 using TrainingPlannerAppMVC.Domain.Interface;
@@ -25,18 +27,17 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-builder.Services.AddControllers().AddFluentValidation(options =>
+builder.Services.AddControllers(x =>
 {
-    options.ImplicitlyValidateChildProperties = true;
-    options.ImplicitlyValidateRootCollectionElements = true;
-    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-});
-
+    x.ModelBinderProviders.Insert(0, new DecimalBinderProvider());
+}).AddFluentValidation();
+    
 builder.Services.AddTransient<IValidator<NewUserVm>, NewUserValidation>();
 builder.Services.AddTransient<IValidator<NewProductVm>, NewProductValidation>();
 builder.Services.AddTransient<IValidator<ProductDetailsVm>, ProductDetailsValidation>();
 builder.Services.AddTransient<IValidator<ProductCaloriesVm>, ProductCaloriesValidation>();
-
+builder.Services.AddTransient<IValidator<NewExerciseVm>, NewExerciseValidation>();
+builder.Services.AddTransient<IValidator<ExerciseCategoryVm>, ExerciseCategoryValidation>();
 
 var app = builder.Build();
 
@@ -68,8 +69,14 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(name: "product",
-                pattern: "product",
-                defaults: new { controller = "Product", action = "Index" });
+    pattern: "product",
+    defaults: new { controller = "Product", action = "Index" });
+app.MapControllerRoute(name: "exercise",
+    pattern: "exercise",        
+    defaults: new { controller = "Exercise", action = "Index" });
+app.MapControllerRoute(name: "day",
+    pattern: "day",        
+    defaults: new { controller = "Day", action = "Index" });
 app.MapRazorPages();
 
 app.Run();

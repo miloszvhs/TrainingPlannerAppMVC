@@ -7,7 +7,7 @@ using TrainingPlannerAppMVC.Domain.Common;
 
 namespace TrainingPlannerAppMVC.Domain.Model
 {
-    public class DayExercise : AuditableEntity
+    public class DayExercise
     {
         public int Id { get; init; }
         public virtual DayExerciseDetails ExerciseDetails { get; set; }

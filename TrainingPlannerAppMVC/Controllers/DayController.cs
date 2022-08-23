@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic;
 using TrainingPlannerAppMVC.Application.Interfaces;
 
 namespace TrainingPlannerAppMVC.Controllers
@@ -11,21 +12,28 @@ namespace TrainingPlannerAppMVC.Controllers
         {
             _dayService = dayService;
         }
-
         [HttpGet]
         public IActionResult Index(Guid userId)
         {
             var model = _dayService.GetAllDaysByUserId(userId);
+            
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Index(Guid userId, int pageSize, int pageNumber)
+        /*[HttpPost]
+        public IActionResult Index(Guid userId)
         {
             var model = _dayService.GetAllDaysByUserId(userId);
             return View(model);
+        }*/
+        
+        [HttpGet]
+        public IActionResult AddDay(Guid userId)
+        {
+            _dayService.AddDay(userId);
+            return RedirectToAction("Index", new { userId = userId});
         }
-
+        
         public IActionResult Details(Guid userId)
         {
             var model = _dayService.GetDayDetailsByUserId(userId);

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TrainingPlannerAppMVC.Application.ViewModels.DayVm;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.DayVm
+public class ListDayForListVm
 {
-    public class ListDayForListVm
-    {
-        public List<DayForListVm> Days { get; set; }
-    }
+    public List<DayForListVm> Days { get; set; }
+    public bool AllowDayCreate { get; init; }
+    public Guid UserId { get; init; }
 }

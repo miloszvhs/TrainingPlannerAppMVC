@@ -1,8 +1,83 @@
 ﻿@model TrainingPlannerAppMVC.Application.ViewModels.DayVm.DayDetailsVm
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Details";
 }
 
 <h2>title</h2>
+<div class="d-inline-flex flex-row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Fat
+            </th>
+            <th>
+                Carbs
+            </th>
+            <th>
+                Proteins
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Products.Products) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carbs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proteins)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kcal)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Category
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Exercises.Exercises) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExerciseDetails.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExerciseCategory)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>

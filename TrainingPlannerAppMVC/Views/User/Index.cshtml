@@ -52,7 +52,9 @@
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "UserDetails", new { userId=item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) |
-                @Html.RouteLink("Products", "Product", new { userId=item.Id})
+                @Html.RouteLink("Days", "Day", new { userId=item.Id}) |
+                @Html.RouteLink("Products", "Product", new { userId=item.Id}) |
+                @Html.RouteLink("Exercises", "Exercise", new { userId=item.Id})
             </td>
         </tr>
 }

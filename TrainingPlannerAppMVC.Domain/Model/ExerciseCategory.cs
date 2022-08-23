@@ -7,7 +7,7 @@ using TrainingPlannerAppMVC.Domain.Common;
 
 namespace TrainingPlannerAppMVC.Domain.Model
 {
-    public class ExerciseCategory : AuditableEntity
+    public class ExerciseCategory
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }

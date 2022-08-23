@@ -38,34 +38,27 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return -1;
         }
 
-        public int UpdateExercise(Exercise exercise)
+        public void UpdateExercise(Exercise exercise)
         {
-            var entity = _context.Exercises.FirstOrDefault(x => x.Id == exercise.Id);
-
-            if (entity != null)
-            {
-                entity = exercise;
-                _context.SaveChangesAsync();
-                return entity.Id;
-            }
-            return -1;
+            _context.Update(exercise);
+            _context.SaveChanges();
         }
 
         public IQueryable<Exercise> GetAllExercises()
         {
-            var exercises = _context.Exercises;
+            var exercises = _context.Exercises.Include(x => x.Category);
             return exercises;
         }
 
         public IQueryable<Exercise> GetAllExercisesByUserId(Guid userId)
         {
-            var exercises = _context.Exercises.Where(x => x.UserId == userId);
+            var exercises = _context.Exercises.Include(x => x.Category).Where(x => x.UserId == userId);
             return exercises;
         }
 
         public Exercise GetExerciseById(int exerciseId)
         {
-            var exercise = _context.Exercises.FirstOrDefault(x => x.Id == exerciseId);
+            var exercise = _context.Exercises.Include(x => x.Category).FirstOrDefault(x => x.Id == exerciseId);
             return exercise;
         }
     }

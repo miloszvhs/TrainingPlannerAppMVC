@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+﻿using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
 
-namespace TrainingPlannerAppMVC.Application.Interfaces
+namespace TrainingPlannerAppMVC.Application.Interfaces;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        ListProductForListVm GetAllProductsByUserId(Guid userId);
-        int AddProduct(NewProductVm product);
-        ProductDetailsVm GetProductById(int productId);
-
-    }
+    ListProductForListVm GetAllProductsByUserId(Guid userId, int pageSize, int pageNumber, string searchString);
+    int AddProduct(NewProductVm product);
+    int DeleteProduct(int productId);
+    int UpdateProduct(NewProductVm product);
+    NewProductVm GetProductForEdit(int id);
 }
