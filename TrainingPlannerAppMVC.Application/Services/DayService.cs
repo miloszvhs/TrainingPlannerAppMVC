@@ -76,18 +76,37 @@ public class DayService : IDayService
         return result;
     }
 
-    public ListDayExerciseForListVm GetAllExercisesByDayId(Guid dayId)
+    public DayDetailsVm GetDayById(Guid dayId)
     {
-        var exercises = _dayExerciseRepository.GetAllExercisesByDayId(dayId)
+        var dayProducts = _dayProductRepository.GetProductsByDayId(dayId)
+            .ProjectTo<DayProductForListVm>(_mapper.ConfigurationProvider).ToList();
+        var dayExercises = _dayExerciseRepository.GetAllExercisesByDayId(dayId)
             .ProjectTo<DayExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
 
-        var exercisesList = new ListDayExerciseForListVm
+        var dayProductList = new ListDayProductForListVm()
         {
-            Exercises = exercises,
-            Count = exercises.Count
+            Products = dayProducts,
+            Count = dayProducts.Count,
+            AllFat = dayProducts.Select(x => x.Fat).Sum(),
+            AllCarbs = dayProducts.Select(x => x.Carbs).Sum(),
+            AllProteins = dayProducts.Select(x => x.Proteins).Sum(),
+            AllKcal = dayProducts.Select(x => x.Kcal).Sum()
         };
 
-        return exercisesList;
+        var dayExerciseList = new ListDayExerciseForListVm()
+        {
+            Exercises = dayExercises,
+            Count = dayExercises.Count
+        };
+        
+        var dayVm = new DayDetailsVm()
+        {
+            Id = dayId,
+            Products = dayProductList,
+            Exercises = dayExerciseList,
+        };
+        
+        return dayVm;
     }
 
     private bool CheckIfDayOfCurrentDateExistByUserId(Guid userId)

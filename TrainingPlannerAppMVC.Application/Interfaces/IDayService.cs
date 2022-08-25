@@ -9,4 +9,5 @@ public interface IDayService
     ListDayForListVm GetAllDaysByUserId(Guid userId);
     DayDetailsVm GetDayDetailsByUserId(Guid userId);
     Guid AddDay(Guid userId);
+    DayDetailsVm GetDayById(Guid dayId);
 }

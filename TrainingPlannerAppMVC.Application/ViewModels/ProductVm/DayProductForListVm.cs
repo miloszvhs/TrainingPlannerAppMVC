@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TrainingPlannerAppMVC.Application.Mapping;
 using TrainingPlannerAppMVC.Domain.Model;
+using TrainingPlannerAppMVC.Domain.ValueObjects;
 
 namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
 
@@ -13,6 +14,7 @@ public class DayProductForListVm : IMapFrom<DayProduct>
     public decimal Proteins { get; set; }
     public decimal Kcal { get; set; }
     public decimal Weight { get; set; }
+    public ProductDetailsVm Details { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -23,5 +25,7 @@ public class DayProductForListVm : IMapFrom<DayProduct>
             .ForMember(x => x.Proteins, opt => opt.MapFrom(s => s.ProductDetails.Calories.Proteins))
             .ForMember(x => x.Kcal, opt => opt.MapFrom(s => s.ProductDetails.Calories.ToDecimal()))
             .ForMember(x => x.Weight, opt => opt.MapFrom(s => s.ProductDetails.Weight));
+        profile.CreateMap<ProductDetails, ProductDetailsVm>();
+        profile.CreateMap<ProductCalories, ProductCaloriesVm>();
     }
 }

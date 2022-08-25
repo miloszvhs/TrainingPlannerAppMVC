@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 
@@ -62,7 +63,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public IQueryable<DayProduct> GetProductsByDayId(Guid dayId)
         {
-            var products = _context.DayProducts.Where(x => x.DayId == dayId);
+            var products = _context.DayProducts.Include(x => x.ProductDetails).Where(x => x.DayId == dayId);
             return products;
         }
     }

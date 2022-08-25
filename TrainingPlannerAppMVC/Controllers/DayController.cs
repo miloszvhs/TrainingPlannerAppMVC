@@ -19,13 +19,6 @@ namespace TrainingPlannerAppMVC.Controllers
             
             return View(model);
         }
-
-        /*[HttpPost]
-        public IActionResult Index(Guid userId)
-        {
-            var model = _dayService.GetAllDaysByUserId(userId);
-            return View(model);
-        }*/
         
         [HttpGet]
         public IActionResult AddDay(Guid userId)
@@ -34,9 +27,9 @@ namespace TrainingPlannerAppMVC.Controllers
             return RedirectToAction("Index", new { userId = userId});
         }
         
-        public IActionResult Details(Guid userId)
+        public IActionResult Details(Guid dayId)
         {
-            var model = _dayService.GetDayDetailsByUserId(userId);
+            var model = _dayService.GetDayById(dayId);
             return View(model);
         }
     }
