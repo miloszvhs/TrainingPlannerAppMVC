@@ -1,0 +1,114 @@
+﻿@using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm
+@model TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm.NewDayExerciseVm
+
+@{
+    ViewData["Title"] = "AddExercise";
+    if(Model.ExerciseDetails != null)
+    {
+        Model.ExerciseDetails.Sets.Clear();
+        for (int index = 0; index < Model.NumberOfSets; index++)
+        {
+            Model.ExerciseDetails.Sets.Add(new DayExerciseSetVm());
+        }
+    }
+}
+
+<h1>AddExercise</h1>
+
+<h4>NewDayExerciseVm</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddExercise">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DayId" class="form-control"/>
+            <input type="hidden" asp-for="Id" class="form-control"/>
+            <div class="form-group">
+                <label asp-for="ExerciseDetails.Name" class="control-label"></label>
+                <input asp-for="ExerciseDetails.Name" class="form-control"/>
+                <span asp-validation-for="ExerciseDetails.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExerciseCategory" class="control-label"></label>
+                <input asp-for="ExerciseCategory" class="form-control"/>
+                <span asp-validation-for="ExerciseCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExerciseDetails.Description" class="control-label"></label>
+                <input asp-for="ExerciseDetails.Description" class="form-control"/>
+                <span asp-validation-for="ExerciseDetails.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfSets" class="control-label">Number of sets</label>
+                <div class="d-flex align-items-center">
+                    <input asp-for="NumberOfSets" class="form-control"/>
+                    <span asp-validation-for="NumberOfSets" class="text-danger"></span>
+                    <div class="form-group">
+                        <input type="submit" value="set" class="btn btn-info"/>
+                    </div>
+                </div>
+            </div>
+            @for (int index = 0; index < Model.NumberOfSets; index++)
+            {
+                <div class="border p-2 mt-1 mb-1">
+                    <div class="h4">Set nr.@(index+1)</div>
+                    <div class='form-group'>
+                        <label asp-for='ExerciseDetails.Sets[index].Reps' class='control-label'></label>
+                        <input asp-for='ExerciseDetails.Sets[index].Reps' class='form-control'/>
+                        <span asp-validation-for='ExerciseDetails.Sets[index].Reps' class='text-danger'></span>
+                    </div>
+                    <div class='form-group'>
+                        <label asp-for='ExerciseDetails.Sets[index].Weight' class='control-label'></label>
+                        <input asp-for='ExerciseDetails.Sets[index].Weight' class='form-control'/>
+                        <span asp-validation-for='ExerciseDetails.Sets[index].Weight' class='text-danger'></span>
+                    </div>
+                    <div class='form-group'>
+                        <label asp-for='ExerciseDetails.Sets[index].BreakTimeInSeconds' class='control-label'>Break in seconds</label>
+                        <input asp-for='ExerciseDetails.Sets[index].BreakTimeInSeconds' class='form-control'/>
+                        <span asp-validation-for='ExerciseDetails.Sets[index].BreakTimeInSeconds' class='text-danger'></span>
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-route-dayId="@Model.DayId">Back</a>
+</div>
+
+@section Scripts {
+    <script>
+        
+        $("#setReps").click(function (){
+           var reps = document.getElementById("reps").value;
+           for (let i = 0; i < reps; i++) {
+               $(".setDiv").
+               $(".setDiv").append("<div class='form-group'>");    
+               $(".setDiv").append("<label asp-for='ExerciseDetails.Sets["+i+"].Reps' class='control-label'></label>");    
+               $(".setDiv").append("<input asp-for='ExerciseDetails.Sets["+i+"].Reps' class='form-control'/>");    
+               $(".setDiv").append("<span asp-validation-for='ExerciseDetails.Sets["+i+"].Reps' class='text-danger'></span>");    
+               $(".setDiv").append("</div>");
+               $(".setDiv").append("<div class='form-group'>");    
+               $(".setDiv").append("<label asp-for='ExerciseDetails.Sets["+i+"].Sets' class='control-label'></label>");    
+               $(".setDiv").append("<input asp-for='ExerciseDetails.Sets["+i+"].Sets' class='form-control'/>");    
+               $(".setDiv").append("<span asp-validation-for='ExerciseDetails.Sets["+i+"].Sets' class='text-danger'></span>");    
+               $(".setDiv").append("</div>");
+               $(".setDiv").append("<div class='form-group'>");    
+               $(".setDiv").append("<label asp-for='ExerciseDetails.Sets["+i+"].Weight' class='control-label'></label>");    
+               $(".setDiv").append("<input asp-for='ExerciseDetails.Sets["+i+"].Weight' class='form-control'/>");    
+               $(".setDiv").append("<span asp-validation-for='ExerciseDetails.Sets["+i+"].Weight' class='text-danger'></span>");    
+               $(".setDiv").append("</div>");
+               $(".setDiv").append("<div class='form-group'>");    
+               $(".setDiv").append("<label asp-for='ExerciseDetails.Sets["+i+"].BreakTimeInSeconds' class='control-label'></label>");    
+               $(".setDiv").append("<input asp-for='ExerciseDetails.Sets["+i+"].BreakTimeInSeconds' class='form-control'/>");    
+               $(".setDiv").append("<span asp-validation-for='ExerciseDetails.Sets["+i+"].BreakTimeInSeconds' class='text-danger'></span>");    
+               $(".setDiv").append("</div>");
+           }
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
