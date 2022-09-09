@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using TrainingPlannerAppMVC.Application.Interfaces;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 
@@ -51,7 +51,7 @@ public class ExerciseService : IExerciseService
         var exerciseVm = _mapper.Map<NewExerciseVm>(exercise);
         return exerciseVm;
     }
-    
+
     public int UpdateExercise(NewExerciseVm model)
     {
         var exercise = _mapper.Map<Exercise>(model);

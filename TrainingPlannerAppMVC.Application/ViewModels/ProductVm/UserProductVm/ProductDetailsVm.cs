@@ -3,7 +3,7 @@ using FluentValidation;
 using TrainingPlannerAppMVC.Application.Mapping;
 using TrainingPlannerAppMVC.Domain.Model;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 
 public class ProductDetailsVm : IMapFrom<ProductDetails>
 {

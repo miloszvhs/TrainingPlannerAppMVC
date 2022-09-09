@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using TrainingPlannerAppMVC.Application.Mapping;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProduct;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Domain.ValueObjects;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 
 public class ProductForListVm : IMapFrom<Product>
 {

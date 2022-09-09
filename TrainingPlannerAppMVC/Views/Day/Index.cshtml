@@ -8,36 +8,25 @@
 @if (Model.AllowDayCreate)
 {
     <p>
-        @Html.ActionLink("Create New", "AddDay", new { userId=Model.UserId})
+        @Html.ActionLink("Create current day", "AddDay", new { userId=Model.UserId})
     </p> 
 }
-else
-{
-    <p>Create New</p>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            Days
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var (item, index) in Model.Days.Select((x, y) => (x, y + 1))) {
-        var date = item.Date.Date.ToString("d");
-        <tr>
-            <td>
-                @index
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => date)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { dayId=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="contrainer">
+    <div class="row row-cols-auto justify-content-center">
+        <div class="col">
+            <div class="h2">Days</div>
+        </div>
+    </div>
+    <div class="row row-cols-auto g-2 justify-content-center">
+        @foreach (var item in Model.Days)
+        {
+            var date = item.Date.Date.ToString("d");
+            <div class="col">
+                <div class="d-flex flex-column align-items-center p-3 border rounded justify-content-center">
+                    <div class="p-0">@Html.DisplayFor(modelItem => date)</div>
+                    <div class="p-0">@Html.ActionLink("Details", "Details", new { dayId = item.Id }, new { @class = "text-decoration-none text-uppercase fs-3" })</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

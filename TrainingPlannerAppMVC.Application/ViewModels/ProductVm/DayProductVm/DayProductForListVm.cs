@@ -3,14 +3,13 @@ using TrainingPlannerAppMVC.Application.Mapping;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Domain.ValueObjects;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
 
 public class DayProductForListVm : IMapFrom<DayProduct>
 {
     public int Id { get; init; }
-    public string Name { get; set; }
-    public decimal Weight { get; set; }
-    public DayProductDetailsVm Details { get; set; }
+    public Guid DayId { get; init; }
+    public DayProductDetailsVm ProductDetails { get; set; }
 
     public void Mapping(Profile profile)
     {

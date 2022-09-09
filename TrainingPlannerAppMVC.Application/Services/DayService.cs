@@ -2,8 +2,8 @@
 using AutoMapper.QueryableExtensions;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.DayVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 
@@ -15,6 +15,7 @@ public class DayService : IDayService
     private readonly IDayProductRepository _dayProductRepository;
     private readonly IDayRepository _dayRepository;
     private readonly IMapper _mapper;
+    private IDayService _dayServiceImplementation;
 
     public DayService(IDayRepository dayRepository,
         IDayProductRepository dayProductRepository,
@@ -42,6 +43,20 @@ public class DayService : IDayService
         return dayList;
     }
 
+    public ListDayExerciseForListVm GetAllExercisesByDayId(Guid dayId)
+    {
+        var dayExercises = _dayExerciseRepository.GetAllExercisesByDayId(dayId)
+            .ProjectTo<DayExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+
+        var dayExerciseList = new ListDayExerciseForListVm
+        {
+            Exercises = dayExercises,
+            Count = dayExercises.Count
+        };
+
+        return dayExerciseList;
+    }
+
     public ListDayProductForListVm GetAllProductsByDayId(Guid dayId)
     {
         var products = _dayProductRepository.GetProductsByDayId(dayId)
@@ -51,10 +66,10 @@ public class DayService : IDayService
         {
             Products = products,
             Count = products.Count,
-            AllFat = Math.Round(products.Select(x => x.Fat).Sum(), 2),
-            AllCarbs = Math.Round(products.Select(x => x.Carbs).Sum(), 2),
-            AllProteins = Math.Round(products.Select(x => x.Proteins).Sum(), 2),
-            AllKcal = Math.Round(products.Select(x => x.Kcal).Sum(), 2)
+            AllFat = products.Sum(x => x.ProductDetails.Calories.Fat),
+            AllCarbs = products.Sum(x => x.ProductDetails.Calories.Carbs),
+            AllProteins = products.Sum(x => x.ProductDetails.Calories.Proteins),
+            AllKcal = products.Sum(x => x.ProductDetails.Kcal)
         };
 
         return productList;
@@ -78,35 +93,56 @@ public class DayService : IDayService
 
     public DayDetailsVm GetDayById(Guid dayId)
     {
-        var dayProducts = _dayProductRepository.GetProductsByDayId(dayId)
-            .ProjectTo<DayProductForListVm>(_mapper.ConfigurationProvider).ToList();
-        var dayExercises = _dayExerciseRepository.GetAllExercisesByDayId(dayId)
-            .ProjectTo<DayExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+        var dayProductList = GetAllProductsByDayId(dayId);
 
-        var dayProductList = new ListDayProductForListVm()
-        {
-            Products = dayProducts,
-            Count = dayProducts.Count,
-            AllFat = dayProducts.Select(x => x.Fat).Sum(),
-            AllCarbs = dayProducts.Select(x => x.Carbs).Sum(),
-            AllProteins = dayProducts.Select(x => x.Proteins).Sum(),
-            AllKcal = dayProducts.Select(x => x.Kcal).Sum()
-        };
+        var dayExerciseList = GetAllExercisesByDayId(dayId);
 
-        var dayExerciseList = new ListDayExerciseForListVm()
-        {
-            Exercises = dayExercises,
-            Count = dayExercises.Count
-        };
-        
-        var dayVm = new DayDetailsVm()
+        var dayVm = new DayDetailsVm
         {
             Id = dayId,
             Products = dayProductList,
-            Exercises = dayExerciseList,
+            Exercises = dayExerciseList
         };
-        
+
         return dayVm;
+    }
+
+    public void AddProductToDay(NewDayProductVm product)
+    {
+        var entity = _mapper.Map<DayProduct>(product);
+        _dayProductRepository.AddProduct(entity);
+    }
+
+    public void AddExerciseToDay(NewDayExerciseVm exercise)
+    {
+        var entity = _mapper.Map<DayExercise>(exercise);
+        _dayExerciseRepository.AddExercise(entity);
+    }
+
+    public NewDayExerciseVm GetExerciseById(int id)
+    {
+        var exercise = _dayExerciseRepository.GetExerciseById(id);
+        var exerciseVm = _mapper.Map<NewDayExerciseVm>(exercise);
+        return exerciseVm;
+    }
+
+    public void UpdateExercise(NewDayExerciseVm model)
+    {
+        var exercise = _mapper.Map<DayExercise>(model);
+        _dayExerciseRepository.UpdateExercise(exercise);
+    }
+
+    public NewDayProductVm GetProductById(int id)
+    {
+        var product = _dayProductRepository.GetProductById(id);
+        var productVm = _mapper.Map<NewDayProductVm>(product);
+        return productVm;
+    }
+
+    public void UpdateProduct(NewDayProductVm model)
+    {
+        var product = _mapper.Map<DayProduct>(model);
+        _dayProductRepository.UpdateProduct(product);
     }
 
     private bool CheckIfDayOfCurrentDateExistByUserId(Guid userId)

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TrainingPlannerAppMVC.Application.Mapping;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 using TrainingPlannerAppMVC.Domain.Model;
 
 namespace TrainingPlannerAppMVC.Application.ViewModels.UserVm;

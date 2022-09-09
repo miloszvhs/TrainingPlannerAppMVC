@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace TrainingPlannerAppMVC.Application.Binders;
+namespace TrainingPlannerAppMVC.Infrastructure.Binders;
 
 public class DecimalModelBinder : IModelBinder
 {

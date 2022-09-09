@@ -280,9 +280,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<int>("Reps")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Weight")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");

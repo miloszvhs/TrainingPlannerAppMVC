@@ -1,8 +1,7 @@
-﻿using System.Data.Entity;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using TrainingPlannerAppMVC.Application.Interfaces;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 
@@ -45,7 +44,7 @@ public class ProductService : IProductService
 
         return productList;
     }
-    
+
     public NewProductVm GetProductForEdit(int id)
     {
         var product = _productRepository.GetProductById(id);

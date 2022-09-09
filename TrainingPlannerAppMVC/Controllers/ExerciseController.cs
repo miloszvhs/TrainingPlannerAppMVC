@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 
 namespace TrainingPlannerAppMVC.Controllers
 {

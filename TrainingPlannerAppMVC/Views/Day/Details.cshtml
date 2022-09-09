@@ -4,55 +4,66 @@
     ViewBag.Title = "Details";
 }
 
-<h2>title</h2>
-<div class="d-inline-flex flex-row">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Fat
-            </th>
-            <th>
-                Carbs
-            </th>
-            <th>
-                Proteins
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.Products.Products) {
+<h2>Day Details</h2>
+<div class="d-flex justify-content-center">
+    <div class="col p-2">
+        @Html.ActionLink("Add product", "AddProduct", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1" })
+        <table class="border table">
+            <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fat)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Carbs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Proteins)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Weight)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kcal)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Fat
+                </th>
+                <th>
+                    Carbs
+                </th>
+                <th>
+                    Proteins
+                </th>
+                <th>
+                    Weight
+                </th>
+                <th>
+                    Kcal
+                </th>
             </tr>
-        }
-        </tbody>
-    </table>
-    <table class="table">
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Products.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Calories.Fat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Calories.Carbs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Calories.Proteins)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Weight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductDetails.Kcal)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditProduct", new { id = item.Id }, new { @class = "btn btn-info"})
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col p-2">
+        @Html.ActionLink("Add exercise", "AddExercise", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1" })
+        <table class="border table">
             <thead>
             <tr>
                 <th>
@@ -61,10 +72,14 @@
                 <th>
                     Category
                 </th>
+                <th>
+                    Description
+                </th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Exercises.Exercises) {
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Exercises.Exercises)
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.ExerciseDetails.Name)
@@ -73,11 +88,14 @@
                         @Html.DisplayFor(modelItem => item.ExerciseCategory)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        @Html.DisplayFor(modelItem => item.ExerciseDetails.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditExercise", new { id = item.Id }, new { @class = "btn btn-info"})
                     </td>
                 </tr>
             }
             </tbody>
         </table>
+    </div>
 </div>

@@ -11,6 +11,10 @@ namespace TrainingPlannerAppMVC.Domain.ValueObjects
     [Owned]
     public record ProductCalories
     {
+        public ProductCalories()
+        {
+            
+        }
         public decimal Fat { get; set; }
         public decimal Carbs { get; set; }
         public decimal Proteins { get; set; }

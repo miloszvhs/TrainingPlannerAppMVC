@@ -3,7 +3,7 @@ using FluentValidation;
 using TrainingPlannerAppMVC.Application.Mapping;
 using TrainingPlannerAppMVC.Domain.Model;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
+namespace TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 
 public class NewExerciseVm : IMapFrom<Exercise>
 {

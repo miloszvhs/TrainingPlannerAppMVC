@@ -37,16 +37,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return -1;
         }
 
-        public int UpdateProduct(DayProduct product)
+        public void UpdateProduct(DayProduct product)
         {
-            var entity = _context.DayProducts.FirstOrDefault(x => x.Id == product.Id);
-            if (entity != null)
-            {
-                entity = product;
-                _context.SaveChanges();
-                return product.Id;
-            }
-            return -1;
+            _context.Update(product);
+            _context.SaveChanges();
         }
 
         public IQueryable<DayProduct> GetAllProducts()
@@ -57,13 +51,20 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public DayProduct GetProductById(int productId)
         {
-            var product = _context.DayProducts.FirstOrDefault(x => x.Id == productId);
+            var product = _context.DayProducts
+                .Include(x => x.ProductDetails)
+                .ThenInclude(x => x.Calories)
+                .FirstOrDefault(x => x.Id == productId);
             return product;
         }
 
         public IQueryable<DayProduct> GetProductsByDayId(Guid dayId)
         {
-            var products = _context.DayProducts.Include(x => x.ProductDetails).Where(x => x.DayId == dayId);
+            var products = _context.DayProducts
+                .Include(x => x.ProductDetails)
+                .ThenInclude(x => x.Calories)
+                .Where(x => x.DayId == dayId)
+                .AsNoTracking();
             return products;
         }
     }

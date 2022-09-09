@@ -1,4 +1,4 @@
-﻿namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+﻿namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
 
 public class ListDayProductForListVm
 {

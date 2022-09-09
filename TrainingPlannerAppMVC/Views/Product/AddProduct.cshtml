@@ -1,4 +1,4 @@
-﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.NewProductVm
+﻿@model TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm.NewProductVm
 
 @{
     ViewData["Title"] = "AddProduct";
@@ -43,11 +43,10 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+           @Html.ActionLink("Back to list", "Index", new { userId=Model.UserId })
+       </div>
     </div>
-</div>
-
-<div>
-    @Html.ActionLink("Back to list", "Index", new { userId=Model.UserId })
 </div>
 
 @section Scripts {

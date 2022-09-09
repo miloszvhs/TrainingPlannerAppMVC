@@ -1,4 +1,4 @@
-﻿namespace TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
+﻿namespace TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 
 public class ListExerciseForListVm
 {

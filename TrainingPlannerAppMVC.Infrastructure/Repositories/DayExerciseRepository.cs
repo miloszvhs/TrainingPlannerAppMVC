@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 
@@ -50,7 +51,11 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
 
         public DayExercise GetExerciseById(int exerciseId)
         {
-            var exercise = _context.DayExercises.FirstOrDefault(x => x.Id == exerciseId);
+            var exercise = _context.DayExercises
+                .Include(x => x.ExerciseCategory)
+                .Include(x => x.ExerciseDetails)
+                .ThenInclude(x => x.Sets)
+                .FirstOrDefault(x => x.Id == exerciseId);
             return exercise;
         }
 
@@ -60,16 +65,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Repositories
             return exercises;
         }
 
-        public int UpdateExercise(DayExercise exercise)
+        public void UpdateExercise(DayExercise exercise)
         {
-            var entity = _context.DayExercises.FirstOrDefault(x => x.Id == exercise.Id);
-            if (entity != null)
-            {
-                entity = exercise;
-                _context.SaveChanges();
-                return exercise.Id;
-            }
-            return -1;
+            _context.Update(exercise);
+            _context.SaveChanges();
         }
     }
 }

@@ -4,13 +4,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using TrainingPlannerAppMVC.Application;
-using TrainingPlannerAppMVC.Application.Binders;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 using TrainingPlannerAppMVC.Application.ViewModels.UserVm;
 using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Infrastructure;
+using TrainingPlannerAppMVC.Infrastructure.Binders;
 using TrainingPlannerAppMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +42,9 @@ builder.Services.AddTransient<IValidator<ProductDetailsVm>, ProductDetailsValida
 builder.Services.AddTransient<IValidator<ProductCaloriesVm>, ProductCaloriesValidation>();
 builder.Services.AddTransient<IValidator<NewExerciseVm>, NewExerciseValidation>();
 builder.Services.AddTransient<IValidator<ExerciseCategoryVm>, ExerciseCategoryValidation>();
+builder.Services.AddTransient<IValidator<DayExerciseSetVm>, DayExerciseSetValidation>();
+builder.Services.AddTransient<IValidator<NewDayExerciseVm>, NewDayExerciseValidation>();
+builder.Services.AddTransient<IValidator<NewDayProductVm>, NewDayProductValidation>();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ using TrainingPlannerAppMVC.Application.Mapping;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Domain.ValueObjects;
 
-namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 
 public class NewProductVm : IMapFrom<Product>
 {

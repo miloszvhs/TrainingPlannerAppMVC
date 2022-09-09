@@ -1,4 +1,4 @@
-﻿using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+﻿using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 
 namespace TrainingPlannerAppMVC.Application.Interfaces;
 

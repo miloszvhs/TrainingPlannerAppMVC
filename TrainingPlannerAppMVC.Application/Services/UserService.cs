@@ -9,14 +9,14 @@ namespace TrainingPlannerAppMVC.Application.Services;
 
 public class UserService : IUserService
 {
-    private IUserRepository _userRepository { get; }
-    private IMapper _mapper { get; }
-
     public UserService(IMapper mapper, IUserRepository userRepository)
     {
         _userRepository = userRepository;
         _mapper = mapper;
     }
+
+    private IUserRepository _userRepository { get; }
+    private IMapper _mapper { get; }
 
     public Guid AddUser(NewUserVm user)
     {

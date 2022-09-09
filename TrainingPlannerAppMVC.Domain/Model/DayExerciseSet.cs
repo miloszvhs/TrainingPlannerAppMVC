@@ -14,7 +14,6 @@ namespace TrainingPlannerAppMVC.Domain.Model
         public virtual DayExerciseDetails Details { get; set; }
         public int BreakTimeInSeconds { get; set; }
         public int Reps { get; set; }
-        public int Sets { get; set; }
         public decimal Weight { get; set; }
     }
 }

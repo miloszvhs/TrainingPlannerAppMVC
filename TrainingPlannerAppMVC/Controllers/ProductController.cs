@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
+using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Models;
 
