@@ -63,9 +63,6 @@ namespace TrainingPlannerAppMVC.Controllers
                 ExerciseDetails = new()
                 {
                     Sets = new()
-                    {
-                        new DayExerciseSetVm()
-                    }
                 },
             };
             return View(model);
