@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Products</h1>
 
 <p>
-    <a asp-action="AddProduct" asp-route-userId="@Model.UserId">Create New</a>
+    <a asp-action="AddProduct" asp-route-userId="@Model.UserId">Add product</a>
 </p>
 <form asp-action="Index" asp-controller="Product" method="post">
     <div class="container text-center">
