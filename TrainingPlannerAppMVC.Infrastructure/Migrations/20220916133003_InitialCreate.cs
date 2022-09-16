@@ -34,6 +34,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     UserEmail_DomainName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -376,7 +377,6 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     DetailsId = table.Column<int>(type: "int", nullable: false),
                     BreakTimeInSeconds = table.Column<int>(type: "int", nullable: false),
                     Reps = table.Column<int>(type: "int", nullable: false),
-                    Sets = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>

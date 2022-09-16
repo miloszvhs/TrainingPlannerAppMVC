@@ -29,4 +29,12 @@
             </div>
         }
     </div>
+    <div class="container row row-cols-sm-auto justify-content-center">
+    @for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+    {
+        <div class="col mw-25 p-3 border rounded align-items-center">
+            <div class="p-0">@(i)</div>
+        </div>
+    }
+    </div>  
 </div>

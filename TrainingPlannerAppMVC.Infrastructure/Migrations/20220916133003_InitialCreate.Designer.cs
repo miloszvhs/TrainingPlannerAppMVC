@@ -12,8 +12,8 @@ using TrainingPlannerAppMVC.Infrastructure;
 namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220907133830_DeletedSetsFromSet")]
-    partial class DeletedSetsFromSet
+    [Migration("20220916133003_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -435,6 +435,10 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");

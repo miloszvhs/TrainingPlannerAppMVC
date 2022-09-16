@@ -1,8 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using TrainingPlannerAppMVC.Application;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm;
@@ -11,11 +9,9 @@ using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 using TrainingPlannerAppMVC.Application.ViewModels.UserVm;
-using TrainingPlannerAppMVC.Domain.Interface;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Infrastructure;
 using TrainingPlannerAppMVC.Infrastructure.Binders;
-using TrainingPlannerAppMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,17 +21,27 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<Context>();
+builder.Services.AddDefaultIdentity<User>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+    }
+).AddEntityFrameworkStores<Context>();
 
+//Services DI
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-builder.Services.AddControllers(x =>
-{
-    x.ModelBinderProviders.Insert(0, new DecimalBinderProvider());
-}).AddFluentValidation();
-    
+//Binders
+builder.Services.AddControllers(x => { x.ModelBinderProviders.Insert(0, new DecimalBinderProvider()); });
+
+//Validations
+builder.Services.AddFluentValidation();
 builder.Services.AddTransient<IValidator<NewUserVm>, NewUserValidation>();
 builder.Services.AddTransient<IValidator<NewProductVm>, NewProductValidation>();
 builder.Services.AddTransient<IValidator<ProductDetailsVm>, ProductDetailsValidation>();
@@ -68,22 +74,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-/*app.MapControllerRoute(
-    name: "blog",
-    pattern: "blog/{*article}",
-    defaults: new { controller = "Blog", action = "Action" });*/
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(name: "product",
-    pattern: "product",
-    defaults: new { controller = "Product", action = "Index" });
-app.MapControllerRoute(name: "exercise",
-    pattern: "exercise",        
-    defaults: new { controller = "Exercise", action = "Index" });
-app.MapControllerRoute(name: "day",
-    pattern: "day",        
-    defaults: new { controller = "Day", action = "Index" });
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("product",
+    "product",
+    new { controller = "Product", action = "Index" });
+app.MapControllerRoute("exercise",
+    "exercise",
+    new { controller = "Exercise", action = "Index" });
+app.MapControllerRoute("day",
+    "day",
+    new { controller = "Day", action = "Index" });
 app.MapRazorPages();
 
 app.Run();
