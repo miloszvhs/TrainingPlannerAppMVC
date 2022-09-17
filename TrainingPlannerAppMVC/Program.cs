@@ -1,6 +1,9 @@
+using System.Configuration;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Google;
 using TrainingPlannerAppMVC.Application;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm;
@@ -12,9 +15,11 @@ using TrainingPlannerAppMVC.Application.ViewModels.UserVm;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Infrastructure;
 using TrainingPlannerAppMVC.Infrastructure.Binders;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var config = builder.Configuration;
+          
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<Context>(options =>
@@ -37,20 +42,20 @@ builder.Services.AddDefaultIdentity<User>(options =>
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
+//Authentications and external login
+builder.Services.AddAuthentication().AddGoogle(opt =>
+{
+    IConfigurationSection googleAuthNSection = config.GetSection("Authentication:Google");
+    opt.ClientId = googleAuthNSection["ClientId"];
+    opt.ClientSecret = googleAuthNSection["ClientSecret"];
+});
+
 //Binders
 builder.Services.AddControllers(x => { x.ModelBinderProviders.Insert(0, new DecimalBinderProvider()); });
 
 //Validations
 builder.Services.AddFluentValidation();
-builder.Services.AddTransient<IValidator<NewUserVm>, NewUserValidation>();
-builder.Services.AddTransient<IValidator<NewProductVm>, NewProductValidation>();
-builder.Services.AddTransient<IValidator<ProductDetailsVm>, ProductDetailsValidation>();
-builder.Services.AddTransient<IValidator<ProductCaloriesVm>, ProductCaloriesValidation>();
-builder.Services.AddTransient<IValidator<NewExerciseVm>, NewExerciseValidation>();
-builder.Services.AddTransient<IValidator<ExerciseCategoryVm>, ExerciseCategoryValidation>();
-builder.Services.AddTransient<IValidator<DayExerciseSetVm>, DayExerciseSetValidation>();
-builder.Services.AddTransient<IValidator<NewDayExerciseVm>, NewDayExerciseValidation>();
-builder.Services.AddTransient<IValidator<NewDayProductVm>, NewDayProductValidation>();
+builder.Services.AddValidations();
 
 var app = builder.Build();
 

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Domain.ValueObjects;
 
-namespace TrainingPlannerAppMVC.Web.Areas.Identity.Pages.Account
+namespace TrainingPlannerAppMVC.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
