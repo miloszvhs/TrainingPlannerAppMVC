@@ -1,25 +1,14 @@
-using System.Configuration;
-using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication.Google;
 using TrainingPlannerAppMVC.Application;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.DayExerciseVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
-using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
-using TrainingPlannerAppMVC.Application.ViewModels.UserVm;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Infrastructure;
 using TrainingPlannerAppMVC.Infrastructure.Binders;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
-          
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<Context>(options =>
@@ -27,16 +16,16 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = false;
-        options.Password.RequiredLength = 8;
-        options.Password.RequiredUniqueChars = 0;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireDigit = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireUppercase = true;
-    }
-).AddEntityFrameworkStores<Context>();
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+}).AddRoles<IdentityRole<Guid>>()
+.AddEntityFrameworkStores<Context>();
 
 //Services DI
 builder.Services.AddApplication();
@@ -48,6 +37,16 @@ builder.Services.AddAuthentication().AddGoogle(opt =>
     IConfigurationSection googleAuthNSection = config.GetSection("Authentication:Google");
     opt.ClientId = googleAuthNSection["ClientId"];
     opt.ClientSecret = googleAuthNSection["ClientSecret"];
+});
+
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("CanEditUser", policy =>
+    {
+        policy.RequireClaim("EditUser");
+        policy.RequireClaim("ShowUser");
+        policy.RequireRole("Admin");
+    });
 });
 
 //Binders

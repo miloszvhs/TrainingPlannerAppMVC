@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
@@ -7,6 +8,7 @@ using TrainingPlannerAppMVC.Application.ViewModels.ProductVm.DayProductVm;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
+    [Authorize]
     public class DayController : Controller
     {
         private readonly IDayService _dayService;

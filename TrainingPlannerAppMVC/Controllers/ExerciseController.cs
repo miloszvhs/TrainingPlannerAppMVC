@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
+    [Authorize]
     public class ExerciseController : Controller
     {
         private readonly IExerciseService _exerciseService;

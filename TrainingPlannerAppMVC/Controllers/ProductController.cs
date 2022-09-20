@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ProductVm;
@@ -7,7 +8,8 @@ using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Models;
 
 namespace TrainingPlannerAppMVC.Controllers
-{
+{    
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
