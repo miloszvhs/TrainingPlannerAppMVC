@@ -7,7 +7,7 @@
 <h1>Products</h1>
 
 <p>
-    <a asp-action="AddProduct" asp-route-userId="@Model.UserId">Add product</a>
+    <a asp-action="AddProduct">Add product</a>
 </p>
 <form asp-action="Index" asp-controller="Product" method="post">
     <div class="container text-center">
@@ -50,8 +50,8 @@
                         @Html.DisplayFor(modelItem => item.Details.Calories.Proteins)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.Id, userId=item.UserId }) |
-                        @Html.ActionLink("Delete", "Delete", new { userId=item.UserId, productId=item.Id })
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { productId=item.Id })
                     </td>
                 </tr>
             }
@@ -76,7 +76,6 @@
         
     }
     </ul>
-    <input type="hidden" asp-for="UserId"/>
     <input type="hidden" asp-for="CurrentPage" name="pageNumber" id="pageNumber">
     <input type="hidden" asp-for="PageSize" name="pageSize" id="pageSize">
 </form>

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
@@ -19,8 +20,9 @@ namespace TrainingPlannerAppMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(Guid userId)
+        public IActionResult Index()
         {
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
             var products = _productService.GetAllProductsByUserId(userId, 5, 1, "");
 
             ViewBag.Title = "Calories and products";
@@ -29,9 +31,10 @@ namespace TrainingPlannerAppMVC.Controllers
         }
         
         [HttpPost]
-        public IActionResult Index(Guid userId, int pageSize, int pageNumber, string searchString)
+        public IActionResult Index(int pageSize, int pageNumber, string searchString)
         {
-            if(pageNumber == null)
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+            if (pageNumber == null)
             {
                 pageNumber = 1;
             }
@@ -49,9 +52,9 @@ namespace TrainingPlannerAppMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddProduct(Guid userId)
+        public ActionResult AddProduct()
         {
-            return View(new NewProductVm() { UserId = userId });
+            return View(new NewProductVm());
         }
 
         [HttpPost]
@@ -59,8 +62,10 @@ namespace TrainingPlannerAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+                product.UserId = userId;
                 _productService.AddProduct(product);
-                return RedirectToAction("Index", new { userId = product.UserId });
+                return RedirectToAction("Index");
             }
             return View(product);
         }
@@ -77,17 +82,19 @@ namespace TrainingPlannerAppMVC.Controllers
         {
             if(ModelState.IsValid)
             {
+                var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+                product.UserId = userId;
                 _productService.UpdateProduct(product);
-                return RedirectToAction("Index", new { userId = product.UserId});    
+                return RedirectToAction("Index");    
             }
             return View(product);
         }
         
         [HttpGet]
-        public IActionResult Delete(Guid userId, int productId)
+        public IActionResult Delete(int productId)
         {
             _productService.DeleteProduct(productId);
-            return RedirectToAction("Index", new { userId = userId });
+            return RedirectToAction("Index");
         }
     }
 }

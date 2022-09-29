@@ -9,7 +9,7 @@ namespace TrainingPlannerAppMVC.Application.ViewModels.ProductVm.UserProductVm;
 public class NewProductVm : IMapFrom<Product>
 {
     public int Id { get; set; }
-    public Guid UserId { get; init; }
+    public Guid UserId { get; set; }
     public ProductDetailsVm Details { get; set; }
 
     public void Mapping(Profile profile)

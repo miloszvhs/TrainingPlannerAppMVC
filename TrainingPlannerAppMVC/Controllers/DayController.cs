@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic;
 using TrainingPlannerAppMVC.Application.Interfaces;
@@ -18,18 +20,20 @@ namespace TrainingPlannerAppMVC.Controllers
             _dayService = dayService;
         }
         [HttpGet]
-        public IActionResult Index(Guid userId)
+        public IActionResult Index()
         {
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
             var model = _dayService.GetAllDaysByUserId(userId);
             
             return View(model);
         }
         
         [HttpGet]
-        public IActionResult AddDay(Guid userId)
+        public IActionResult AddDay()
         {
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
             _dayService.AddDay(userId);
-            return RedirectToAction("Index", new { userId = userId});
+            return RedirectToAction("Index");
         }
         
         public IActionResult Details(Guid dayId)
@@ -65,6 +69,9 @@ namespace TrainingPlannerAppMVC.Controllers
                 ExerciseDetails = new()
                 {
                     Sets = new()
+                    {
+                        new DayExerciseSetVm()
+                    }
                 },
             };
             return View(model);

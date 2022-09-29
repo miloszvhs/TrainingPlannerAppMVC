@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingPlannerAppMVC", "TrainingPlannerAppMVC\TrainingPlannerAppMVC.csproj", "{06C890CA-473B-42F2-A5CA-854D93F74FEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingPlannerAppMVC", "TrainingPlannerAppMVC\TrainingPlannerAppMVC.csproj", "{06C890CA-473B-42F2-A5CA-854D93F74FEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5B360D50-7701-450F-9076-E21C12156076}"
 EndProject
@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{809BA01C-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{3837BEE4-CE81-443C-B03F-A30AF907EAF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingPlannerAppMVC.Tests", "TrainingPlannerAppMVC.Tests\TrainingPlannerAppMVC.Tests.csproj", "{7474710D-9794-4E32-A05C-2479A3A6FC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingPlannerAppMVC.Tests", "TrainingPlannerAppMVC.Tests\TrainingPlannerAppMVC.Tests.csproj", "{7474710D-9794-4E32-A05C-2479A3A6FC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingPlannerAppMVC.Infrastructure", "TrainingPlannerAppMVC.Infrastructure\TrainingPlannerAppMVC.Infrastructure.csproj", "{F512CF0D-D3BC-4FE3-9B89-D8DF43EB08A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingPlannerAppMVC.Infrastructure", "TrainingPlannerAppMVC.Infrastructure\TrainingPlannerAppMVC.Infrastructure.csproj", "{F512CF0D-D3BC-4FE3-9B89-D8DF43EB08A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingPlannerAppMVC.Domain", "TrainingPlannerAppMVC.Domain\TrainingPlannerAppMVC.Domain.csproj", "{D7C69859-98B7-4DE1-83F8-BA3A378E316E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingPlannerAppMVC.Domain", "TrainingPlannerAppMVC.Domain\TrainingPlannerAppMVC.Domain.csproj", "{D7C69859-98B7-4DE1-83F8-BA3A378E316E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingPlannerAppMVC.Application", "TrainingPlannerAppMVC.Application\TrainingPlannerAppMVC.Application.csproj", "{B5C975AA-79EC-4137-92AE-BE5CCBADEFBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingPlannerAppMVC.Application", "TrainingPlannerAppMVC.Application\TrainingPlannerAppMVC.Application.csproj", "{B5C975AA-79EC-4137-92AE-BE5CCBADEFBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

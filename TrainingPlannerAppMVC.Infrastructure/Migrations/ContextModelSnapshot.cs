@@ -209,7 +209,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Days");
+                    b.ToTable("Days", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayExercise", b =>
@@ -232,7 +232,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("ExerciseCategoryId");
 
-                    b.ToTable("DayExercises");
+                    b.ToTable("DayExercises", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayExerciseCategory", b =>
@@ -249,7 +249,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DayExerciseCategories");
+                    b.ToTable("DayExerciseCategories", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayExerciseDetails", b =>
@@ -276,7 +276,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.HasIndex("ExerciseId")
                         .IsUnique();
 
-                    b.ToTable("DayExerciseDetails");
+                    b.ToTable("DayExerciseDetails", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayExerciseSet", b =>
@@ -304,7 +304,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("DetailsId");
 
-                    b.ToTable("DayExerciseSets");
+                    b.ToTable("DayExerciseSets", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayProduct", b =>
@@ -322,7 +322,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("DayId");
 
-                    b.ToTable("DayProducts");
+                    b.ToTable("DayProducts", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.DayProductDetails", b =>
@@ -349,7 +349,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("DayProductDetails");
+                    b.ToTable("DayProductDetails", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Exercise", b =>
@@ -376,7 +376,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Exercises");
+                    b.ToTable("Exercises", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ExerciseCategory", b =>
@@ -393,7 +393,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExerciseCategories");
+                    b.ToTable("ExerciseCategories", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.Product", b =>
@@ -411,7 +411,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.ProductDetails", b =>
@@ -434,7 +434,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("ProductDetails");
+                    b.ToTable("ProductDetails", (string)null);
                 });
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.User", b =>
@@ -633,7 +633,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "Calories", b1 =>
+                    b.OwnsOne("TrainingPlannerAppMVC.Domain.Model.DayProductDetails.Calories#TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "Calories", b1 =>
                         {
                             b1.Property<int>("DayProductDetailsId")
                                 .HasColumnType("int");
@@ -652,7 +652,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                             b1.HasKey("DayProductDetailsId");
 
-                            b1.ToTable("DayProductDetails");
+                            b1.ToTable("DayProductDetails", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DayProductDetailsId");
@@ -702,7 +702,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "Calories", b1 =>
+                    b.OwnsOne("TrainingPlannerAppMVC.Domain.Model.ProductDetails.Calories#TrainingPlannerAppMVC.Domain.ValueObjects.ProductCalories", "Calories", b1 =>
                         {
                             b1.Property<int>("ProductDetailsId")
                                 .HasColumnType("int");
@@ -721,7 +721,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                             b1.HasKey("ProductDetailsId");
 
-                            b1.ToTable("ProductDetails");
+                            b1.ToTable("ProductDetails", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductDetailsId");
@@ -735,7 +735,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("TrainingPlannerAppMVC.Domain.Model.User", b =>
                 {
-                    b.OwnsOne("TrainingPlannerAppMVC.Domain.ValueObjects.Email", "UserEmail", b1 =>
+                    b.OwnsOne("TrainingPlannerAppMVC.Domain.Model.User.UserEmail#TrainingPlannerAppMVC.Domain.ValueObjects.Email", "UserEmail", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
@@ -750,7 +750,7 @@ namespace TrainingPlannerAppMVC.Infrastructure.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("AspNetUsers");
+                            b1.ToTable("AspNetUsers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
