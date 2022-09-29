@@ -15,7 +15,6 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" class="form-control" />
-            <input type="hidden"  asp-for="UserId" class="form-control" />
             <div class="form-group">
                 <label asp-for="ExerciseName" class="control-label"></label>
                 <input asp-for="ExerciseName" class="form-control" value="@name"/>
@@ -34,7 +33,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-userId="@Model.UserId">Back to List</a>
+    <a asp-action="Index" asp-controller="Exercise">Back to List</a>
 </div>
 
 @section Scripts {

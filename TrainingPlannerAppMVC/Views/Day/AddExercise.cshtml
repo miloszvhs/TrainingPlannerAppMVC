@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "AddExercise";
+    var weight = "0";
 }
 <h4>Add Exercise</h4>
 <hr />
@@ -27,25 +28,31 @@
                 <input asp-for="ExerciseDetails.Description" class="form-control"/>
                 <span asp-validation-for="ExerciseDetails.Description" class="text-danger"></span>
             </div>
-            <div class="border p-2 mt-1 mb-1">
-                @foreach (var (item, index) in Model.ExerciseDetails.Sets.Select((x, y) => (x, y)))
-                {
+            <p>
+                <a id="addSet" class="btn btn-success mt-1 w-100">Add set</a>
+            </p>
+            <div class="border p-1 mt-1 mb-1 bg-light" id="setContainer">
+            @foreach (var (item, index) in Model.ExerciseDetails.Sets.Select((x, y) => (x, y)))
+            {
+                weight = Model.ExerciseDetails.Sets[index].Weight.ToString().Replace(",", ".");
+                <div class="border p-1 mb-1 mt-1 bg-white">
                     <div class="form-group">
                         <label asp-for="ExerciseDetails.Sets[index].Reps" class="control-label"></label>
-                        <input asp-for="ExerciseDetails.Sets[index].Reps" class="form-control"/>
+                        <input asp-for="ExerciseDetails.Sets[index].Reps" class="form-control reps"/>
                         <span asp-validation-for="ExerciseDetails.Sets[index].Reps" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ExerciseDetails.Sets[index].Weight" class="control-label"></label>
-                        <input asp-for="ExerciseDetails.Sets[index].Weight" class="form-control" step="any"/>
+                        <input asp-for="ExerciseDetails.Sets[index].Weight" class="form-control weight" value="@(weight)"/>
                         <span asp-validation-for="ExerciseDetails.Sets[index].Weight" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ExerciseDetails.Sets[index].BreakTimeInSeconds" class="control-label">Break time in seconds</label>
-                        <input asp-for="ExerciseDetails.Sets[index].BreakTimeInSeconds" class="form-control"/>
+                        <input asp-for="ExerciseDetails.Sets[index].BreakTimeInSeconds" class="form-control breaktime"/>
                         <span asp-validation-for="ExerciseDetails.Sets[index].BreakTimeInSeconds" class="text-danger"></span>
                     </div>
-                }
+                </div>
+            }
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
@@ -58,6 +65,31 @@
 </div>
 @section Scripts {
     <script>
+        $('body').on('click', '#addSet', function () {
+        //TODO zmienic ten dziwny konstrukt
+            var i = $(".reps").length;
+            var y = $(".weight").length;
+            var x = $(".breaktime").length;
+    
+            var structure = $('<div class="border p-1 mb-1 mt-1 bg-white">' +
+                '<div class="form-group">' +
+                '<label class="control-label" for="ExerciseDetails_Sets_' + i + '__Reps">Reps</label>' +
+                '<input type="text" name="ExerciseDetails.Sets[' + i + '].Reps" class = "form-control reps" id="ExerciseDetails_Sets_' + i + '__Reps"/>' +
+                '<span class="text-danger field-validation-valid" data-valmsg-for="ExerciseDetails.Sets[' + i + '].Reps" data-valmsg-replace="true"></span>' +
+                '</div >' +
+                '<div class="form-group">' +
+                '<label class="control-label" for="ExerciseDetails_Sets_' + y + '__Weight">Weight</label>' +
+                '<input type="text" name="ExerciseDetails.Sets[' + y + '].Weight" class = "form-control weight" id="ExerciseDetails_Sets_' + y + '__Weight" />' +
+                '<span class="text-danger field-validation-valid" data-valmsg-for="ExerciseDetails.Sets[' + y + '].Weight" data-valmsg-replace="true"></span>' +
+                '</div >' +
+                '<div class="form-group">' +
+                '<label class="control-label" for="ExerciseDetails_Sets_' + x + '__BreakTimeInSeconds">Break time in seconds</label>' +
+                '<input type="text" name="ExerciseDetails.Sets[' + x + '].BreakTimeInSeconds" class = "form-control breaktime" id="ExerciseDetails_Sets_' + x + '__BreakTimeInSeconds" />' +
+                '<span class="text-danger field-validation-valid" data-valmsg-for="ExerciseDetails.Sets[' + x + '].BreakTimeInSeconds" data-valmsg-replace="true"></span>' +
+                '</div >' +
+                '</div >');
+            $('#setContainer').append(structure);
+        });
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

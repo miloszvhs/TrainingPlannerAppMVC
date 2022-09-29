@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using TrainingPlannerAppMVC.Domain.Common;
 using TrainingPlannerAppMVC.Domain.Model;
 using TrainingPlannerAppMVC.Domain.ValueObjects;
+using TrainingPlannerAppMVC.Infrastructure.Seeds;
+
+//using TrainingPlannerAppMVC.Infrastructure.Seeds;
 
 namespace TrainingPlannerAppMVC.Infrastructure
 {
@@ -54,12 +57,13 @@ namespace TrainingPlannerAppMVC.Infrastructure
 
             builder.Entity<User>(x =>
             {
-                x.Ignore(x => x.Email);
                 x.Property(x => x.FirstName).IsRequired();
                 x.Property(x => x.LastName).IsRequired();
                 //specify that the Email property is an Owned Entity of the User entity type
                 x.OwnsOne(x => x.UserEmail);
             });
+            
+            builder.SeedSampleRolesData();
         }
 
         public override int SaveChanges()

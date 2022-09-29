@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm;
 using TrainingPlannerAppMVC.Application.ViewModels.ExerciseVm.UserExerciseVm;
 
 namespace TrainingPlannerAppMVC.Controllers
 {
+    [Authorize]
     public class ExerciseController : Controller
     {
         private readonly IExerciseService _exerciseService;
@@ -15,16 +18,18 @@ namespace TrainingPlannerAppMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(Guid userId)
+        public IActionResult Index()
         {
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
             var exercises = _exerciseService.GetExercisesByUserId(userId, 5, 1, "");
             return View(exercises);
         }
         
         [HttpPost]
-        public IActionResult Index(Guid userId, int pageSize, int pageNumber, string searchString)
+        public IActionResult Index(int pageSize, int pageNumber, string searchString)
         {
-            if(pageNumber == null)
+            var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+            if (pageNumber == null)
             {
                 pageNumber = 1;
             }
@@ -39,9 +44,9 @@ namespace TrainingPlannerAppMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddExercise(Guid userId)
+        public IActionResult AddExercise()
         {
-            return View(new NewExerciseVm() { UserId = userId });
+            return View(new NewExerciseVm());
         }
         
         [HttpPost]
@@ -49,8 +54,10 @@ namespace TrainingPlannerAppMVC.Controllers
         {
             if(ModelState.IsValid)
             {
+                var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+                exercise.UserId = userId;
                 _exerciseService.AddExercise(exercise);
-                return RedirectToAction("Index", new { userId = exercise.UserId });
+                return RedirectToAction("Index");
             }
 
             return View(exercise);
@@ -68,18 +75,20 @@ namespace TrainingPlannerAppMVC.Controllers
         {
             if(ModelState.IsValid)
             {
+                var userId = Guid.Parse(HttpContext.User.Identity.GetUserId());
+                exercise.UserId = userId;
                 _exerciseService.UpdateExercise(exercise);
-                return RedirectToAction("Index", new { userId = exercise.UserId });
+                return RedirectToAction("Index");
             }
 
             return View(exercise);
         }
         
         [HttpGet]
-        public IActionResult Delete(Guid userId, int exerciseId)
+        public IActionResult Delete(int exerciseId)
         {
             _exerciseService.DeleteExercise(exerciseId);
-            return RedirectToAction("Index", new { userId = userId });
+            return RedirectToAction("Index");
         }
     }
 }

@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Day Details</h2>
-<div class="d-flex justify-content-center">
-    <div class="col p-2">
-        @Html.ActionLink("Add product", "AddProduct", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1" })
+<h1 class="display-3 text-center p-2">Day Details</h1>
+<div class="container row">
+    <div class="col">
+        @Html.ActionLink("Add product", "AddProduct", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1 w-100" })
         <table class="border table">
             <thead>
             <tr>
@@ -61,8 +61,8 @@
             </tbody>
         </table>
     </div>
-    <div class="col p-2">
-        @Html.ActionLink("Add exercise", "AddExercise", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1" })
+    <div class="col">
+        @Html.ActionLink("Add exercise", "AddExercise", new { dayId=Model.Id}, new { @class = "btn btn-primary mb-1 w-100" })
         <table class="border table">
             <thead>
             <tr>
@@ -78,9 +78,9 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Exercises.Exercises)
+            @foreach (var (item, idx) in Model.Exercises.Exercises.Select((item, idx) => (item, idx)))
             {
-                <tr>
+                <tr class="fw-bold">
                     <td>
                         @Html.DisplayFor(modelItem => item.ExerciseDetails.Name)
                     </td>
@@ -92,8 +92,43 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "EditExercise", new { id = item.Id }, new { @class = "btn btn-info"})
+                        <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="@(".set"+idx)" aria-expanded="false" aria-controls="@("set"+idx)">Show sets</button>
                     </td>
                 </tr>
+                @if (item.ExerciseDetails.Sets.Any())
+                {
+                    <tr class="collapse @("set"+idx) table-light">
+                        <th>
+                            Set
+                        </th>
+                        <th>
+                            Reps
+                        </th>
+                        <th>
+                            Weight
+                        </th>
+                        <th>
+                            Break time in seconds
+                        </th>
+                    </tr>
+                    @foreach (var (set, index) in item.ExerciseDetails.Sets.Select((set, index) => (set, index + 1)))
+                    {
+                        <tr class="collapse @("set"+idx) table-light">
+                            <td>
+                                <li class="badge bg-primary">@(index)</li>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => set.Reps)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => set.Weight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => set.BreakTimeInSeconds)
+                            </td>
+                        </tr>
+                    }
+                }
             }
             </tbody>
         </table>

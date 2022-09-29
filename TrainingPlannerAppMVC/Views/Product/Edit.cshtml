@@ -25,7 +25,6 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id"/>
-            <input type="hidden" asp-for="UserId"/>
             <input type="hidden" asp-for="Details.Id"/>
             <input type="hidden" asp-for="Details.ProductId"/>
             <div class="form-group">
@@ -56,7 +55,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-userId="@Model.UserId">Back to List</a>
+    <a asp-action="Index" asp-controller="Product">Back to List</a>
 </div>
 
 @section Scripts {
