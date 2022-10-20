@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Training Planner</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="~/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css">
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/TrainingPlannerAppMVC.styles.css" asp-append-version="true"/>
+
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+<div class="container-fluid h-100">
+    <div class="row flex-nowrap h-100">
+        <div class="shadow col-auto col-md-3 col-xl-3 col-xxl-auto px-sm-2 px-0 bg-white overflow-auto h-100 position-fixed">
+            <div class="d-flex flex-column align-items-center justify-content-center px-3 pt-2 text-black mb-2">
+                <a class="logo d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/assets/img/logo.png" alt="">
+                    <span class="d-none d-md-block text-black">Training Planner</span>
+                </a>
+            </div>
+            <div class="mt-auto border-top border-1 border-dark pt-2">
+                <partial name="_LoginPartial"/>
+            </div>
+        </div>
+        <main class="col offset-2 offset-sm-2 offset-md-3 offset-xl-3 offset-xxl-2 py-3">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+</div>
+<footer class="border-top footer text-center mt-auto bg-white sticky-bottom">
+    <div class="container">
+        <span class="text-muted">&copy; 2022 - TrainingPlannerAppMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
+    </div>
+</footer>
+</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/assets/js/main.js"></script>
+@await RenderSectionAsync("Scripts", false)
+</html>

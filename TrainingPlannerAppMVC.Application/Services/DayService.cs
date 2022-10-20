@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json.Serialization;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using TrainingPlannerAppMVC.Application.Interfaces;
 using TrainingPlannerAppMVC.Application.ViewModels.DayVm;
@@ -15,7 +16,6 @@ public class DayService : IDayService
     private readonly IDayProductRepository _dayProductRepository;
     private readonly IDayRepository _dayRepository;
     private readonly IMapper _mapper;
-    private IDayService _dayServiceImplementation;
 
     public DayService(IDayRepository dayRepository,
         IDayProductRepository dayProductRepository,

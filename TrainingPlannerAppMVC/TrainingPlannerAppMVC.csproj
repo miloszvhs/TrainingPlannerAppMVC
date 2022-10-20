@@ -34,4 +34,8 @@
         <ProjectReference Include="..\TrainingPlannerAppMVC.Infrastructure\TrainingPlannerAppMVC.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\assets\vendor" />
+    </ItemGroup>
+
 </Project>

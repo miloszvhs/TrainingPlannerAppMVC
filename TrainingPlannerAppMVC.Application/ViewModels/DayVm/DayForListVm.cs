@@ -8,7 +8,7 @@ public class DayForListVm : IMapFrom<Day>
 {
     public Guid Id { get; init; }
     public DateTime Date { get; init; }
-
+    
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Day, DayForListVm>()

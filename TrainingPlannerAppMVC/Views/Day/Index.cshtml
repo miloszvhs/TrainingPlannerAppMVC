@@ -1,4 +1,5 @@
-﻿@model TrainingPlannerAppMVC.Application.ViewModels.DayVm.ListDayForListVm
+﻿@using NuGet.Protocol
+@model TrainingPlannerAppMVC.Application.ViewModels.DayVm.ListDayForListVm
 
 @{
     ViewData["Title"] = "Index";
@@ -11,7 +12,8 @@
         @Html.ActionLink("Create current day", "AddDay", "Day")
     </p> 
 }
-<div class="contrainer">
+<div class="container">
+    <div class="row justify-content-center">
     <div class="row row-cols-auto justify-content-center">
         <div class="col">
             <div class="h2">Days</div>
@@ -29,14 +31,10 @@
             </div>
         }
     </div>
-    @*TODO*@
-    @*Refactor this code and figure out how I can change it into calendar with routing*@
-    @*<div class="container row row-cols-sm-auto justify-content-center">
-        @for (int i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
-        {
-            <div class="col mw-25 p-3 border rounded align-items-center">
-                <div class="p-0">@(i)</div>
-            </div>
-        }
-    </div>*@  
+        <div id="calendar"></div>
+    </div>
 </div>
+@section Scripts
+{
+   
+}

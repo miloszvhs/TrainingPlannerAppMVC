@@ -1,0 +1,11 @@
+﻿.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.225) !important;
+}
+
+.hover {
+    background-color: #ffffff;
+    transition: .3s ease-in-out;
+}
+.hover:hover {
+    background-color: #f6f6f6;
+}
